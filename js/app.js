@@ -402,8 +402,6 @@ const game = {
         console.log(this.cardsInDeck);
     },
 
-//pikachu = A, caterpie = 2, zubat = 3, geodude = 4, machop = 5, gastly = 6, chansey = 7, alakazam = 8, onix = 9, gyrados = 10, snorlax = jack, dragonite = queen, mewtwo = king
-
     dealPlayerCard() {
         let randPlayerNum = this.randomPlayerCard();
         this.playerHand.push(this.cardsInDeck[randPlayerNum]);
@@ -411,11 +409,46 @@ const game = {
         if(this.playerHand[this.playerHand.length-1].suit==="diamonds" || this.playerHand[this.playerHand.length-1].suit==="hearts"){
             $(".player-text").eq(this.playerHand.length-1).css("color", "red");
         };
-
-        if(this.playerHand[this.playerHand.length-1].suit==="diamonds" || this.playerHand[this.playerHand.length-1].suit==="hearts"){
-
-        this.cardsInDeck.splice(randPlayerNum, 1);
+        if(this.playerHand[this.playerHand.length-1].icon==="two"){
+            $(".player-card-img").eq(this.playerHand.length-1).attr("src", caterpie)
         }
+        else if(this.playerHand[this.playerHand.length-1].icon==="three"){
+            $(".player-card-img").eq(this.playerHand.length-1).attr("src", zubat)
+        }
+        else if(this.playerHand[this.playerHand.length-1].icon==="four"){
+            $(".player-card-img").eq(this.playerHand.length-1).attr("src", geodude)
+        }
+        else if(this.playerHand[this.playerHand.length-1].icon==="five"){
+            $(".player-card-img").eq(this.playerHand.length-1).attr("src", machop)
+        }
+        else if(this.playerHand[this.playerHand.length-1].icon==="six"){
+            $(".player-card-img").eq(this.playerHand.length-1).attr("src", gastly)
+        }
+        else if(this.playerHand[this.playerHand.length-1].icon==="seven"){
+            $(".player-card-img").eq(this.playerHand.length-1).attr("src", chansey)
+        }
+        else if(this.playerHand[this.playerHand.length-1].icon==="eight"){
+            $(".player-card-img").eq(this.playerHand.length-1).attr("src", alakazam)
+        }
+        else if(this.playerHand[this.playerHand.length-1].icon==="nine"){
+            $(".player-card-img").eq(this.playerHand.length-1).attr("src", onix)
+        }
+        else if(this.playerHand[this.playerHand.length-1].icon==="ten"){
+            $(".player-card-img").eq(this.playerHand.length-1).attr("src", gyrados)
+        }
+        else if(this.playerHand[this.playerHand.length-1].icon==="jack"){
+            $(".player-card-img").eq(this.playerHand.length-1).attr("src", snorlax)
+        }
+        else if(this.playerHand[this.playerHand.length-1].icon==="queen"){
+            $(".player-card-img").eq(this.playerHand.length-1).attr("src", dragonite)
+        }
+        else if(this.playerHand[this.playerHand.length-1].icon==="king"){
+            $(".player-card-img").eq(this.playerHand.length-1).attr("src", mewtwo)
+        }
+        else if(this.playerHand[this.playerHand.length-1].icon==="ace"){
+            $(".player-card-img").eq(this.playerHand.length-1).attr("src", pikachu)
+        };
+        this.cardsInDeck.splice(randPlayerNum, 1);
     },
 
     dealDealerCard() {
@@ -424,6 +457,45 @@ const game = {
         $(".dealer-text").eq(this.dealerHand.length-1).text(`${this.cardsInDeck[randDealerNum].sign}${this.cardsInDeck[randDealerNum].unicode}`);
         if(this.dealerHand[this.dealerHand.length-1].suit==="diamonds" || this.dealerHand[this.dealerHand.length-1].suit==="hearts"){
             $(".dealer-text").eq(this.dealerHand.length-1).css("color", "red");
+        };
+        if(this.dealerHand[this.dealerHand.length-1].icon==="two"){
+            $(".dealer-card-img").eq(this.dealerHand.length-1).attr("src", caterpie)
+        }
+        else if(this.dealerHand[this.dealerHand.length-1].icon==="three"){
+            $(".dealer-card-img").eq(this.dealerHand.length-1).attr("src", zubat)
+        }
+        else if(this.dealerHand[this.dealerHand.length-1].icon==="four"){
+            $(".dealer-card-img").eq(this.dealerHand.length-1).attr("src", geodude)
+        }
+        else if(this.dealerHand[this.dealerHand.length-1].icon==="five"){
+            $(".dealer-card-img").eq(this.dealerHand.length-1).attr("src", machop)
+        }
+        else if(this.dealerHand[this.dealerHand.length-1].icon==="six"){
+            $(".dealer-card-img").eq(this.dealerHand.length-1).attr("src", gastly)
+        }
+        else if(this.dealerHand[this.dealerHand.length-1].icon==="seven"){
+            $(".dealer-card-img").eq(this.dealerHand.length-1).attr("src", chansey)
+        }
+        else if(this.dealerHand[this.dealerHand.length-1].icon==="eight"){
+            $(".dealer-card-img").eq(this.dealerHand.length-1).attr("src", alakazam)
+        }
+        else if(this.dealerHand[this.dealerHand.length-1].icon==="nine"){
+            $(".dealer-card-img").eq(this.dealerHand.length-1).attr("src", onix)
+        }
+        else if(this.dealerHand[this.dealerHand.length-1].icon==="ten"){
+            $(".dealer-card-img").eq(this.dealerHand.length-1).attr("src", gyrados)
+        }
+        else if(this.dealerHand[this.dealerHand.length-1].icon==="jack"){
+            $(".dealer-card-img").eq(this.dealerHand.length-1).attr("src", snorlax)
+        }
+        else if(this.dealerHand[this.dealerHand.length-1].icon==="queen"){
+            $(".dealer-card-img").eq(this.dealerHand.length-1).attr("src", dragonite)
+        }
+        else if(this.dealerHand[this.dealerHand.length-1].icon==="king"){
+            $(".dealer-card-img").eq(this.dealerHand.length-1).attr("src", mewtwo)
+        }
+        else if(this.dealerHand[this.dealerHand.length-1].icon==="ace"){
+            $(".dealer-card-img").eq(this.dealerHand.length-1).attr("src", pikachu)
         };
         this.cardsInDeck.splice(randDealerNum, 1);
     },
@@ -524,6 +596,13 @@ const game = {
 
 
 };
+
+
+// $(".start").on("click", () => {
+//     if(game.cardsInDeck.length === 52){
+//         game.deal();
+//     }
+// });
 
 game.deal();
 
