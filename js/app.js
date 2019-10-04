@@ -367,6 +367,22 @@ const game = {
             unicode: "\u2665"
         },
     ],
+    
+    cardImages: [
+        caterpie = "images/caterpie.png",
+        zubat = "images/zubat.png",
+        geodude = "images/geodude.png",
+        machop = "images/machop.png",
+        gastly = "images/gastly.png",
+        chansey = "images/chansey.png",
+        alakazam = "images/alakazam.png",
+        onix = "images/onix.png",
+        gyrados = "images/gyrados.png",
+        snorlax = "images/snorlax.png",
+        dragonite = "images/dragonite.png",
+        mewtwo = "images/mewtwo.png",
+        pikachu = "images/pikachu.png",
+    ],
 
     randomPlayerCard () {
         return Math.floor(Math.random() * this.cardsInDeck.length)
@@ -386,6 +402,8 @@ const game = {
         console.log(this.cardsInDeck);
     },
 
+//pikachu = A, caterpie = 2, zubat = 3, geodude = 4, machop = 5, gastly = 6, chansey = 7, alakazam = 8, onix = 9, gyrados = 10, snorlax = jack, dragonite = queen, mewtwo = king
+
     dealPlayerCard() {
         let randPlayerNum = this.randomPlayerCard();
         this.playerHand.push(this.cardsInDeck[randPlayerNum]);
@@ -393,7 +411,11 @@ const game = {
         if(this.playerHand[this.playerHand.length-1].suit==="diamonds" || this.playerHand[this.playerHand.length-1].suit==="hearts"){
             $(".player-text").eq(this.playerHand.length-1).css("color", "red");
         };
+
+        if(this.playerHand[this.playerHand.length-1].suit==="diamonds" || this.playerHand[this.playerHand.length-1].suit==="hearts"){
+
         this.cardsInDeck.splice(randPlayerNum, 1);
+        }
     },
 
     dealDealerCard() {
@@ -502,10 +524,6 @@ const game = {
 
 
 };
-
-const cardImages = [
-
-];
 
 game.deal();
 
