@@ -289,7 +289,17 @@ const game = {
     playerHandValue () {
         let value = 0;
         for (let i = 0; i < this.playerHand.length; i++){
-            value += this.playerHand[i].value;
+            if(this.playerHand[i].icon === "ace"){
+                if(value > 21 || value + 11 > 21){
+                    value += this.playerHand[i].value[0];
+                }
+                else{
+                    value += this.playerHand[i].value[1];
+                }
+            }
+            else{
+                value += this.playerHand[i].value;
+            }
         }
         return value;
     },
@@ -297,7 +307,17 @@ const game = {
     dealerHandValue () {
         let value = 0;
         for (let i = 0; i < this.dealerHand.length; i++){
-            value += this.dealerHand[i].value;
+            if(this.dealerHand[i].icon === "ace"){
+                if(value > 21 || value + 11 > 21){
+                    value += this.dealerHand[i].value[0];
+                }
+                else{
+                    value += this.dealerHand[i].value[1];
+                }
+            }
+            else{
+                value += this.dealerHand[i].value;
+            }
         }
         return value;
     },
