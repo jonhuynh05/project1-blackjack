@@ -297,7 +297,7 @@ const game = {
                     value += this.playerHand[i].value[1];
                 }
             }
-            else{
+            else {
                 value += this.playerHand[i].value;
             }
         }
@@ -308,19 +308,69 @@ const game = {
         let value = 0;
         for (let i = 0; i < this.dealerHand.length; i++){
             if(this.dealerHand[i].icon === "ace"){
-                if(value > 21 || value + 11 > 21){
+                if(value + 11 > 21){
                     value += this.dealerHand[i].value[0];
                 }
                 else{
                     value += this.dealerHand[i].value[1];
                 }
             }
-            else{
+            else if(i > 0 && this.dealerHand[i-1].icon === "ace" && value + this.dealerHand[i] > 21){
+                value += this.dealerHand[i].value;
+                value -= 10;
+            }
+            else {
                 value += this.dealerHand[i].value;
             }
         }
         return value;
     },
+
+    checkDealerBlackjack () {
+        if(this.dealerHandValue() === 21){
+            console.log(`Dealer has blackjack!`)
+        }
+    },
+
+    checkPlayerBlackjack () {
+        if(this.playerHandValue() === 21){
+            console.log(`You have blackjack!`)
+        }
+    },
+
+    playerHit () {
+        let randPlayerNum = this.randomPlayerCard();
+        this.playerHand.push(this.cardsInDeck[randPlayerNum]);
+        this.cardsInDeck.splice(randPlayerNum, 1);
+    },
+
+    checkIfPlayerBust () {
+        if(this.playerHandValue() > 21) {
+            console.log(`Bust!`)
+        }
+    },
+
+    checkDealer16 () {
+        while (this.dealerHandValue() < 17) {
+            this.dealerHit();
+        }
+    },
+
+    dealerHit(){
+        let randDealerNum = this.randomDealerCard();
+        this.dealerHand.push(this.cardsInDeck[randDealerNum]);
+        this.cardsInDeck.splice(randDealerNum, 1);
+    },
+
+    checkPlayerWinner () {
+        if(this.playerHandValue() > this.dealerHandValue() && this.playerHandValue() <= 21) {
+            console.log(`You win!`)
+        }
+        else if (this.playerHandValue() < this.dealerHandValue() && this.dealerHandValue() <= 21){
+            console.log(`Dealer wins!`)
+        }
+    }
+
 
 
 };
