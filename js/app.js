@@ -5,262 +5,366 @@ const game = {
         twoSpades = {
             value: 2,
             suit: "spades",
-            icon: "two"
+            icon: "two",
+            sign: "2",
+            unicode: "\u2660"
         },
         twoClubs = {
             value: 2,
             suit: "clubs",
-            icon: "two"
+            icon: "two",
+            sign: "2",
+            unicode: "\u2663"
         },
         twoDiamonds = {
             value: 2,
             suit: "diamonds",
-            icon: "two"
+            icon: "two",
+            sign: "2",
+            unicode: "\u2666"
         },
         twoHearts = {
             value: 2,
             suit: "hearts",
-            icon: "two"             
+            icon: "two",
+            sign: "2",
+            unicode: "\u2665"
         },
         threeSpades = {
             value: 3,
             suit: "spades",
-            icon: "three"
+            icon: "three",
+            sign: "3",
+            unicode: "\u2660"
         },
         threeClubs = {
             value: 3,
             suit: "clubs",
-            icon: "three"
+            icon: "three",
+            sign: "3",
+            unicode: "\u2663"
         },
         threeDiamonds = {
             value: 3,
             suit: "diamonds",
-            icon: "three"
+            icon: "three",
+            sign: "3",
+            unicode: "\u2666"
         },
         threeHearts = {
             value: 3,
             suit: "hearts",
-            icon: "three"             
+            icon: "three",
+            sign: "3",
+            unicode: "\u2665"
         },
         fourSpades = {
             value: 4,
             suit: "spades",
-            icon: "four"
+            icon: "four",
+            sign: "4",
+            unicode: "\u2660"
         },
         fourClubs = {
             value: 4,
             suit: "clubs",
-            icon: "four"
+            icon: "four",
+            sign: "4",
+            unicode: "\u2663"
         },
         fourDiamonds = {
             value: 4,
             suit: "diamonds",
-            icon: "four"
+            icon: "four",
+            sign: "4",
+            unicode: "\u2666"
         },
         fourHearts = {
             value: 4,
             suit: "hearts",
-            icon: "four"             
+            icon: "four",
+            sign: "4",
+            unicode: "\u2665"
         },
         fiveSpades = {
             value: 5,
             suit: "spades",
-            icon: "five"
+            icon: "five",
+            sign: "5",
+            unicode: "\u2660"
         },
         fiveClubs = {
             value: 5,
             suit: "clubs",
-            icon: "five"
+            icon: "five",
+            sign: "5",
+            unicode: "\u2663"
         },
         fiveDiamonds = {
             value: 5,
             suit: "diamonds",
-            icon: "five"
+            icon: "five",
+            sign: "5",
+            unicode: "\u2666"
         },
         fiveHearts = {
             value: 5,
             suit: "hearts",
-            icon: "five"             
+            icon: "five",
+            sign: "5",
+            unicode: "\u2665"
         },
         sixSpades = {
             value: 6,
             suit: "spades",
-            icon: "six"
+            icon: "six",
+            sign: "6",
+            unicode: "\u2660"
         },
         sixClubs = {
             value: 6,
             suit: "clubs",
-            icon: "six"
+            icon: "six",
+            sign: "6",
+            unicode: "\u2663"
         },
         sixDiamonds = {
             value: 6,
             suit: "diamonds",
-            icon: "six"
+            icon: "six",
+            sign: "6",
+            unicode: "\u2666"
         },
         sixHearts = {
             value: 6,
             suit: "hearts",
-            icon: "six"             
+            icon: "six",
+            sign: "6",
+            unicode: "\u2665"
         },
         sevenSpades = {
             value: 7,
             suit: "spades",
-            icon: "seven"             
+            icon: "seven",
+            sign: "7",
+            unicode: "\u2660"             
         },
         sevenClubs = {
             value: 7,
             suit: "clubs",
-            icon: "seven"             
+            icon: "seven",
+            sign: "7",
+            unicode: "\u2663"
         },
         sevenDiamonds = {
             value: 7,
             suit: "diamonds",
-            icon: "seven"             
+            icon: "seven",
+            sign: "7",
+            unicode: "\u2666"             
         },
         sevenHearts = {
             value: 7,
             suit: "hearts",
-            icon: "seven"             
+            icon: "seven",
+            sign: "7",
+            unicode: "\u2665"
         },
         eightSpades = {
             value: 8,
             suit: "spades",
-            icon: "eight"             
+            icon: "eight",
+            sign: "8" ,
+            unicode: "\u2660"            
         },
         eightClubs = {
             value: 8,
             suit: "clubs",
-            icon: "eight"             
+            icon: "eight",
+            sign: "8",
+            unicode: "\u2663"
         },
         eightDiamonds = {
             value: 8,
             suit: "diamonds",
-            icon: "eight"             
+            icon: "eight",
+            sign: "8",
+            unicode: "\u2666"             
         },
         eightHearts = {
             value: 8,
             suit: "hearts",
-            icon: "eight"             
+            icon: "eight",
+            sign: "8",
+            unicode: "\u2665"
         },
         nineSpades = {
             value: 9,
             suit: "spades",
-            icon: "nine"            
+            icon: "nine",
+            sign: "9" ,
+            unicode: "\u2660"           
         },
         nineClubs = {
             value: 9,
             suit: "clubs",
-            icon: "nine"            
+            icon: "nine",
+            sign: "9",
+            unicode: "\u2663"
         },
         nineDiamonds = {
             value: 9,
             suit: "diamonds",
-            icon: "nine"            
+            icon: "nine",
+            sign: "9",
+            unicode: "\u2666"            
         },
         nineHearts = {
             value: 9,
             suit: "hearts",
-            icon: "nine"            
+            icon: "nine",
+            sign: "9",
+            unicode: "\u2665"
         },
         tenSpades = {
             value: 10,
             suit: "spades",
-            icon: "ten"            
+            icon: "ten",
+            sign: "10" ,
+            unicode: "\u2660"           
         },
         tenClubs = {
             value: 10,
             suit: "clubs",
-            icon: "ten"            
+            icon: "ten",
+            sign: "10",
+            unicode: "\u2663"
         },
         tenDiamonds = {
             value: 10,
             suit: "diamonds",
-            icon: "ten"            
+            icon: "ten",
+            sign: "10",
+            unicode: "\u2666"            
         },
         tenHearts = {
             value: 10,
             suit: "hearts",
-            icon: "ten"            
+            icon: "ten",
+            sign: "10",
+            unicode: "\u2665"
         },
         jackSpades = {
             value: 10,
             suit: "spades",
-            icon: "jack"
+            icon: "jack",
+            sign: "J",
+            unicode: "\u2660"
         },
         jackClubs = {
             value: 10,
             suit: "clubs",
-            icon: "jack"
+            icon: "jack",
+            sign: "J",
+            unicode: "\u2663"
         },
         jackDiamonds = {
             value: 10,
             suit: "diamonds",
-            icon: "jack"
+            icon: "jack",
+            sign: "J",
+            unicode: "\u2666"
         },
         jackHearts = {
             value: 10,
             suit: "hearts",
-            icon: "jack"
+            icon: "jack",
+            sign: "J",
+            unicode: "\u2665"
         },
         queenSpades = {
             value: 10,
             suit: "spades",
-            icon: "queen"            
+            icon: "queen",
+            sign: "Q",
+            unicode: "\u2660"            
         },
         queenClubs = {
             value: 10,
             suit: "clubs",
-            icon: "queen"            
+            icon: "queen",
+            sign: "Q",
+            unicode: "\u2663"
         },
         queenDiamonds = {
             value: 10,
             suit: "diamonds",
-            icon: "queen"            
+            icon: "queen",
+            sign: "Q",
+            unicode: "\u2666"            
         },
         queenHearts = {
             value: 10,
             suit: "hearts",
-            icon: "queen"            
+            icon: "queen",
+            sign: "Q",
+            unicode: "\u2665"
         },
         kingSpades = {
             value: 10,
             suit: "spades",
-            icon: "king"
+            icon: "king",
+            sign: "K",
+            unicode: "\u2660"
         },
         kingClubs = {
             value: 10,
             suit: "clubs",
-            icon: "king"
+            icon: "king",
+            sign: "K",
+            unicode: "\u2663"
         },
         kingDiamonds = {
             value: 10,
             suit: "diamonds",
-            icon: "king"
+            icon: "king",
+            sign: "K",
+            unicode: "\u2666"
         },
         kingHearts = {
             value: 10,
             suit: "hearts",
-            icon: "king"
+            icon: "king",
+            sign: "K",
+            unicode: "\u2665"
         },
         aceSpades = {
             value: [1, 11],
             suit: "spades",
-            icon: "ace"
+            icon: "ace",
+            sign: "A",
+            unicode: "\u2660"
         },
         aceClubs = {
             value: [1, 11],
             suit: "clubs",
-            icon: "ace"
+            icon: "ace",
+            sign: "A",
+            unicode: "\u2663"
         },
         aceDiamonds = {
             value: [1, 11],
             suit: "diamonds",
-            icon: "ace"
+            icon: "ace",
+            sign: "A",
+            unicode: "\u2666"
         },
         aceHearts = {
             value: [1, 11],
             suit: "hearts",
-            icon: "ace"
+            icon: "ace",
+            sign: "A",
+            unicode: "\u2665"
         },
     ],
 
@@ -272,18 +376,34 @@ const game = {
         return Math.floor(Math.random() * this.cardsInDeck.length)
     },
 
-    shuffle () {
+    deal () {
         for (let i = 0; i < 2; i++) {
-            let randPlayerNum = this.randomPlayerCard();
-            this.playerHand.push(this.cardsInDeck[randPlayerNum]);
-            this.cardsInDeck.splice(randPlayerNum, 1);
-            let randDealerNum = this.randomDealerCard();
-            this.dealerHand.push(this.cardsInDeck[randDealerNum]);
-            this.cardsInDeck.splice(randDealerNum, 1);
+            this.dealPlayerCard();
+            this.dealDealerCard();
         };
         console.log(this.playerHand);
         console.log(this.dealerHand);
         console.log(this.cardsInDeck);
+    },
+
+    dealPlayerCard() {
+        let randPlayerNum = this.randomPlayerCard();
+        this.playerHand.push(this.cardsInDeck[randPlayerNum]);
+        $(".player-text").eq(this.playerHand.length-1).text(`${this.cardsInDeck[randPlayerNum].sign}${this.cardsInDeck[randPlayerNum].unicode}`);
+        if(this.playerHand[this.playerHand.length-1].suit==="diamonds" || this.playerHand[this.playerHand.length-1].suit==="hearts"){
+            $(".player-text").eq(this.playerHand.length-1).css("color", "red");
+        };
+        this.cardsInDeck.splice(randPlayerNum, 1);
+    },
+
+    dealDealerCard() {
+        let randDealerNum = this.randomDealerCard();
+        this.dealerHand.push(this.cardsInDeck[randDealerNum]);
+        $(".dealer-text").eq(this.dealerHand.length-1).text(`${this.cardsInDeck[randDealerNum].sign}${this.cardsInDeck[randDealerNum].unicode}`);
+        if(this.dealerHand[this.dealerHand.length-1].suit==="diamonds" || this.dealerHand[this.dealerHand.length-1].suit==="hearts"){
+            $(".dealer-text").eq(this.dealerHand.length-1).css("color", "red");
+        };
+        this.cardsInDeck.splice(randDealerNum, 1);
     },
 
     playerHandValue () {
@@ -326,6 +446,10 @@ const game = {
         return value;
     },
 
+    playerCardAssigment () {
+
+    },
+
     checkDealerBlackjack () {
         if(this.dealerHandValue() === 21){
             console.log(`Dealer has blackjack!`)
@@ -342,6 +466,10 @@ const game = {
         let randPlayerNum = this.randomPlayerCard();
         this.playerHand.push(this.cardsInDeck[randPlayerNum]);
         this.cardsInDeck.splice(randPlayerNum, 1);
+    },
+
+    playerStand () {
+        this.checkDealer16();
     },
 
     checkIfPlayerBust () {
@@ -379,5 +507,5 @@ const cardImages = [
 
 ];
 
-game.shuffle();
+game.deal();
 
