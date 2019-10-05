@@ -37,11 +37,30 @@ html, body{
     justify-content: center;
 } */
 
+.dealer-card-back{
+    width: 12rem;
+    height: 18rem;
+    margin: 20px 5px;
+    align-self: center;
+    background-color: rgb(17, 109, 17) !important;
+    border: none !important;
+}
+
+.player-card-back{
+    width: 12rem;
+    height: 18rem;
+    margin: 20px 5px;
+    align-self: center;
+    background-color: rgb(17, 109, 17) !important;
+    border: none !important;
+}
+
 .card {
     width: 12rem;
     height: 18rem;
     margin: 20px 5px;
     align-self: center;
+
 }
 
 /* .card-image-container {
@@ -60,6 +79,12 @@ html, body{
 .card-body {
     height: 30%;
 }
+
+/* .card-img-top {
+}
+
+.card-image-container{
+} */
 
 .card-text {
     font-size: 30px;

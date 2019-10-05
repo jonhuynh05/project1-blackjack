@@ -396,6 +396,8 @@ const game = {
         for (let i = 0; i < 2; i++) {
             this.dealPlayerCard();
             this.dealDealerCard();
+            $(".player-card-back").attr("class", "card");
+            $(".dealer-card-back").attr("class", "card")
         };
         console.log(this.playerHand);
         console.log(this.dealerHand);
@@ -540,10 +542,6 @@ const game = {
         return value;
     },
 
-    playerCardAssigment () {
-
-    },
-
     checkDealerBlackjack () {
         if(this.dealerHandValue() === 21){
             console.log(`Dealer has blackjack!`)
@@ -598,11 +596,11 @@ const game = {
 };
 
 
-// $(".start").on("click", () => {
-//     if(game.cardsInDeck.length === 52){
-//         game.deal();
-//     }
-// });
+$(".start").on("click", () => {
+    if(game.cardsInDeck.length === 52){
+        game.deal();
+    }
+});
 
-game.deal();
+// game.deal();
 
