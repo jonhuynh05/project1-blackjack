@@ -399,8 +399,8 @@ const game = {
         };
         this.dealDealerCard();
         this.dealerCardReveal();
+        $(".dealer-card-back").eq(0).attr("class", "card");
         this.dealDealerCard();
-        $(".dealer-card-back").attr("class", "card");
         console.log(this.playerHand);
         console.log(this.dealerHand);
         console.log(this.cardsInDeck);
@@ -549,7 +549,9 @@ const game = {
 
     checkDealerBlackjack () {
         if(this.dealerHandValue() === 21){
-            console.log(`Dealer has blackjack!`)
+            this.dealerCardReveal();
+            $(".dealer-card-back").eq(0).attr("class", "card");
+            console.log(`Dealer has blackjack!`);
         }
     },
 
@@ -576,8 +578,12 @@ const game = {
     },
 
     checkDealer16 () {
+        this.dealerCardReveal();
+        $(".dealer-card-back").eq(0).attr("class", "card");
         while (this.dealerHandValue() < 17) {
             this.dealerHit();
+            this.dealerCardReveal();
+            $(".dealer-card-back").eq(0).attr("class", "card");
         }
     },
 
