@@ -395,10 +395,12 @@ const game = {
     deal () {
         for (let i = 0; i < 2; i++) {
             this.dealPlayerCard();
-            this.dealDealerCard();
             $(".player-card-back").attr("class", "card");
-            $(".dealer-card-back").attr("class", "card")
         };
+        this.dealDealerCard();
+        this.dealerCardReveal();
+        this.dealDealerCard();
+        $(".dealer-card-back").attr("class", "card");
         console.log(this.playerHand);
         console.log(this.dealerHand);
         console.log(this.cardsInDeck);
@@ -456,7 +458,11 @@ const game = {
     dealDealerCard() {
         let randDealerNum = this.randomDealerCard();
         this.dealerHand.push(this.cardsInDeck[randDealerNum]);
-        $(".dealer-text").eq(this.dealerHand.length-1).text(`${this.cardsInDeck[randDealerNum].sign}${this.cardsInDeck[randDealerNum].unicode}`);
+        this.cardsInDeck.splice(randDealerNum, 1);
+    },
+
+    dealerCardReveal() {
+        $(".dealer-text").eq(this.dealerHand.length-1).text(`${this.dealerHand[this.dealerHand.length-1].sign}${this.dealerHand[this.dealerHand.length-1].unicode}`);
         if(this.dealerHand[this.dealerHand.length-1].suit==="diamonds" || this.dealerHand[this.dealerHand.length-1].suit==="hearts"){
             $(".dealer-text").eq(this.dealerHand.length-1).css("color", "red");
         };
@@ -499,7 +505,6 @@ const game = {
         else if(this.dealerHand[this.dealerHand.length-1].icon==="ace"){
             $(".dealer-card-img").eq(this.dealerHand.length-1).attr("src", pikachu)
         };
-        this.cardsInDeck.splice(randDealerNum, 1);
     },
 
     playerHandValue () {
