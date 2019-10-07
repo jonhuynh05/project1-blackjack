@@ -384,6 +384,7 @@ const game = {
         dragonite = "images/dragonite.png",
         mewtwo = "images/mewtwo.png",
         pikachu = "images/pikachu.png",
+        // pokecard = "images/pokemon-card-back.png"
     ],
 
     randomPlayerCard () {
@@ -408,6 +409,13 @@ const game = {
         console.log(this.playerHand);
         console.log(this.dealerHand);
         console.log(this.cardsInDeck);
+    },
+
+    reset () {
+        this.beforePlaceBet();
+        this.currentBet = 0;
+        this.updateStatus();
+
     },
 
     dealPlayerCard() {
@@ -590,9 +598,6 @@ const game = {
         if(this.playerHandValue() > 21) {
             console.log(`Bust!`);
             $("#modalBust").modal();
-            this.beforePlaceBet();
-            this.currentBet = 0;
-            this.updateStatus();
         }
     },
 
@@ -603,7 +608,7 @@ const game = {
         while (this.dealerHandValue() < 17) {
             this.dealerHit();
             $(".dealer-card-back").eq(0).attr("class", "card");
-        }
+        };
     },
 
     dealerHit(){
