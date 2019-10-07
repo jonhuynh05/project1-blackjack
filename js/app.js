@@ -611,12 +611,24 @@ const game = {
     },
 
     betButtonSetup () {
-        const $button = $(".btn-primary").clone().attr("id", "bet").text("Bet");
-        $(".container-fluid").append($button);
+        const $betButton = $(".btn-primary").clone().attr("id", "bet").text("Bet");
+        $("#button-row").append($betButton);
+        const $addButton = $("#bet").clone().attr("id", "add100").text("+100 Current Bet");
+        $("#button-row").append($addButton);
     }
 
 };
 
+
+$("#start").on("click", () => {
+    if(game.cardsInDeck.length === 52){
+        game.betButtonSetup();
+        $("#start").remove();
+        game.deal();
+        game.checkDealerBlackjack();
+        game.checkPlayerBlackjack();
+    }
+});
 
 $("#start").on("click", () => {
 

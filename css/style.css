@@ -123,6 +123,13 @@ html, body{
     text-align: center;    
 }
 
+#button-row {
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    text-align: center;
+}
+
 .btn-primary{
     background-color: white !important;
     border: none !important;
@@ -135,4 +142,8 @@ html, body{
 
 .btn-primary:hover {
     background-color: red !important;
+}
+
+#add100 {
+    width: 120px;
 }
