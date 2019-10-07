@@ -420,8 +420,8 @@ const game = {
             this.cardsInDeck.push(this.playerHand[i]);
             this.playerHand.splice(i, 1);
         };
-        for (let i = this.dealerHit.length - 1; i >= 0; i--){
-            this.cardsInDeck.push(this.dealerHit[i]);
+        for (let i = this.dealerHand.length - 1; i >= 0; i--){
+            this.cardsInDeck.push(this.dealerHand[i]);
             this.dealerHand.splice(i, 1);
         };
         $(".player-text").text(``).css("color", "black");
