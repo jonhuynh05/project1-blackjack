@@ -406,6 +406,7 @@ const game = {
         $(".dealer-card-back").eq(0).attr("class", "card");
         $(".card .card-img-top").css({"width":"118px", "height":"118px"});
         this.dealDealerCard();
+        $("#player-hand-value").text(`Hand Value: ${this.playerHandValue()}`)
         console.log(this.playerHand);
         console.log(this.dealerHand);
         console.log(this.cardsInDeck);
@@ -609,10 +610,7 @@ const game = {
         this.dealPlayerCard();
         $(".card").eq(game.dealerHand.length).clone().attr("id", `player-card${this.playerHand.length}`).appendTo("#player-row");
         this.playerCardReveal();
-    },
-
-    playerStand () {
-        this.checkDealer16();
+        $("#player-hand-value").text(`Hand Value: ${this.playerHandValue()}`);
     },
 
     checkIfPlayerBust () {
@@ -627,9 +625,11 @@ const game = {
         $(".dealer-card-back").eq(0).attr("class", "card");
         game.dealerCardReveal();
         $(".card .card-img-top").css({"width":"118px", "height":"118px"});
+        $("#dealer-hand-value").text(`Hand Value: ${this.dealerHandValue()}`);
         while (this.dealerHandValue() < 17) {
             this.dealerHit();
             $(".dealer-card-back").eq(0).attr("class", "card");
+            $("#dealer-hand-value").text(`Hand Value: ${this.dealerHandValue()}`)
         };
     },
 
@@ -637,6 +637,7 @@ const game = {
         this.dealDealerCard();
         $(".card").eq(0).clone().attr("id", `dealer-card${this.dealerHand.length}`).appendTo("#dealer-row");
         this.dealerCardReveal();
+        $("#dealer-hand-value").text(`Hand Value: ${this.dealerHandValue()}`)
     },
 
     checkPlayerWinner () {
@@ -706,11 +707,13 @@ const game = {
         });
     },
 
-    // stand(){
-    //     $("#stand").on("click", () => {
-    //         this.playerHit();
-    //     });
-    // },
+    stand(){
+        $("#stand").on("click", () => {
+            $("#hit").prop("disabled", true);
+            $("#stand").prop("disabled", true);
+            game.checkDealer16();
+        });
+    },
 
     beforePlaceBet () {
         $("#add100").prop("disabled", false);
@@ -745,6 +748,7 @@ $("#start").on("click", () => {
     game.allIn()
     game.placeBet();
     game.hit();
+    game.stand();
 });
 
 
