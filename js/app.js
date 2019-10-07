@@ -384,7 +384,7 @@ const game = {
         dragonite = "images/dragonite.png",
         mewtwo = "images/mewtwo.png",
         pikachu = "images/pikachu.png",
-        // pokecard = "images/pokemon-card-back.png"
+        pokecard = "images/pokemon-card-back.png"
     ],
 
     randomPlayerCard () {
@@ -415,6 +415,30 @@ const game = {
         this.beforePlaceBet();
         this.currentBet = 0;
         this.updateStatus();
+        $(".dealer-card-back").eq(0).attr("class", "card");
+        for (let i = this.playerHand.length - 1; i >= 0; i--){
+            this.cardsInDeck.push(this.playerHand[i]);
+            this.playerHand.splice(i, 1);
+        };
+        for (let i = this.dealerHit.length - 1; i >= 0; i--){
+            this.cardsInDeck.push(this.dealerHit[i]);
+            this.dealerHand.splice(i, 1);
+        };
+        $(".player-text").text(``).css("color", "black");
+        $(".dealer-text").text(``).css("color", "black");
+        $(".card .card-img-top").css({"width":"129.8px", "height":"180px"});
+        $(".player-card-img").attr("src", pokecard);
+        $(".dealer-card-img").attr("src", pokecard);
+        for(let i = $("#player-row .card").length - 1; i > 1; i--) {
+            $("#player-row .card").eq(i).remove();
+        };
+        for(let i = $("#dealer-row .card").length - 1; i > 1; i--) {
+            $("#dealer-row .card").eq(i).remove();
+        };
+
+        // $("#dealer-row .card").attr("class", ".dealer-card-back");
+        // $("#player-row .card").attr("class", ".player-card-back");
+
 
     },
 
@@ -598,6 +622,7 @@ const game = {
         if(this.playerHandValue() > 21) {
             console.log(`Bust!`);
             $("#modalBust").modal();
+            game.reset();
         }
     },
 
