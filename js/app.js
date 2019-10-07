@@ -435,11 +435,8 @@ const game = {
         for(let i = $("#dealer-row .card").length - 1; i > 1; i--) {
             $("#dealer-row .card").eq(i).remove();
         };
-
-        // $("#dealer-row .card").attr("class", ".dealer-card-back");
-        // $("#player-row .card").attr("class", ".player-card-back");
-
-
+        $("#dealer-row .card").attr("class", "dealer-card-back");
+        $("#player-row .card").attr("class", "player-card-back");
     },
 
     dealPlayerCard() {
