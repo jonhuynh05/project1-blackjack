@@ -604,18 +604,27 @@ const game = {
         else if (this.playerHandValue() < this.dealerHandValue() && this.dealerHandValue() <= 21){
             console.log(`Dealer wins!`)
         }
+    },
+
+    betButtonSetup () {
+        const $button = $(".btn-primary").clone().attr("id", "bet").text("Bet");
+        $(".container-fluid").append($button);
     }
 
 };
 
 
-// $(".start").on("click", () => {
-//     if(game.cardsInDeck.length === 52){
-//         game.deal();
-//     }
-// });
+$("#start").on("click", () => {
 
-game.deal();
-game.dealerCardReveal();
-$(".dealer-card-back").eq(0).attr("class", "card");
+    game.betButtonSetup();
+    $("#start").remove();
+
+    // if(game.cardsInDeck.length === 52){
+    //     game.deal();
+    // }
+});
+
+// game.deal();
+// game.dealerCardReveal();
+// $(".dealer-card-back").eq(0).attr("class", "card");
 
