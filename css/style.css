@@ -10,7 +10,8 @@ html, body{
 }
 
 .container-fluid {
-    background-color: rgb(17, 109, 17);
+    /* background-color: rgb(17, 109, 17); */
+    background-color: black;
     height: 100%;
     width: 100%;
     display: flex;
@@ -75,7 +76,8 @@ html, body{
     height: 18rem;
     margin: 20px 5px;
     align-self: center;
-    background-color: rgb(17, 109, 17) !important;
+    /* background-color: rgb(17, 109, 17) !important; */
+    background-color: black !important;
     border: none !important;
 }
 
@@ -84,7 +86,8 @@ html, body{
     height: 18rem;
     margin: 20px 5px;
     align-self: center;
-    background-color: rgb(17, 109, 17) !important;
+    /* background-color: rgb(17, 109, 17) !important; */
+    background-color: black !important;
     border: none !important;
 }
 
@@ -162,3 +165,9 @@ html, body{
 #bet {
     width: 120px;
 } */
+
+/* .modal-dialog {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+  } */

@@ -588,7 +588,11 @@ const game = {
 
     checkIfPlayerBust () {
         if(this.playerHandValue() > 21) {
-            console.log(`Bust!`)
+            console.log(`Bust!`);
+            $("#modalBust").modal();
+            this.beforePlaceBet();
+            this.currentBet = 0;
+            this.updateStatus();
         }
     },
 
@@ -681,6 +685,14 @@ const game = {
     //     });
     // },
 
+    beforePlaceBet () {
+        $("#add100").prop("disabled", false);
+        $("#allIn").prop("disabled", false);
+        $("#bet").prop("disabled", false);
+        $("#hit").prop("disabled", true);
+        $("#stand").prop("disabled", true);
+    },
+    
     afterPlaceBet () {
         $("#add100").prop("disabled", true);
         $("#allIn").prop("disabled", true);
