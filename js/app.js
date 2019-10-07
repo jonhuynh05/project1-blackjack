@@ -395,6 +395,7 @@ const game = {
     deal () {
         for (let i = 0; i < 2; i++) {
             this.dealPlayerCard();
+            this.playerCardReveal();
             $(".player-card-back").attr("class", "card");
         };
         this.dealDealerCard();
@@ -409,7 +410,11 @@ const game = {
     dealPlayerCard() {
         let randPlayerNum = this.randomPlayerCard();
         this.playerHand.push(this.cardsInDeck[randPlayerNum]);
-        $(".player-text").eq(this.playerHand.length-1).text(`${this.cardsInDeck[randPlayerNum].sign}${this.cardsInDeck[randPlayerNum].unicode}`);
+        this.cardsInDeck.splice(randPlayerNum, 1);
+    },
+
+    playerCardReveal() {
+        $(".player-text").eq(this.playerHand.length-1).text(`${this.playerHand[this.playerHand.length-1].sign}${this.playerHand[this.playerHand.length-1].unicode}`);
         if(this.playerHand[this.playerHand.length-1].suit==="diamonds" || this.playerHand[this.playerHand.length-1].suit==="hearts"){
             $(".player-text").eq(this.playerHand.length-1).css("color", "red");
         };
@@ -452,7 +457,6 @@ const game = {
         else if(this.playerHand[this.playerHand.length-1].icon==="ace"){
             $(".player-card-img").eq(this.playerHand.length-1).attr("src", pikachu)
         };
-        this.cardsInDeck.splice(randPlayerNum, 1);
     },
 
     dealDealerCard() {
@@ -556,15 +560,16 @@ const game = {
     },
 
     checkPlayerBlackjack () {
+
         if(this.playerHandValue() === 21){
             console.log(`You have blackjack!`)
         }
     },
 
     playerHit () {
-        let randPlayerNum = this.randomPlayerCard();
-        this.playerHand.push(this.cardsInDeck[randPlayerNum]);
-        this.cardsInDeck.splice(randPlayerNum, 1);
+        this.dealPlayerCard();
+        $(".card").eq(game.dealerHand.length).clone().attr("id", `player-card${this.playerHand.length}`).appendTo("#player-row");
+        this.playerCardReveal();
     },
 
     playerStand () {
@@ -578,19 +583,18 @@ const game = {
     },
 
     checkDealer16 () {
-        this.dealerCardReveal();
         $(".dealer-card-back").eq(0).attr("class", "card");
+        game.dealerCardReveal();
         while (this.dealerHandValue() < 17) {
             this.dealerHit();
-            this.dealerCardReveal();
             $(".dealer-card-back").eq(0).attr("class", "card");
         }
     },
 
     dealerHit(){
-        let randDealerNum = this.randomDealerCard();
-        this.dealerHand.push(this.cardsInDeck[randDealerNum]);
-        this.cardsInDeck.splice(randDealerNum, 1);
+        this.dealDealerCard();
+        $(".card").eq(0).clone().attr("id", `dealer-card${this.dealerHand.length}`).appendTo("#dealer-row");
+        this.dealerCardReveal();
     },
 
     checkPlayerWinner () {
@@ -602,8 +606,6 @@ const game = {
         }
     }
 
-
-
 };
 
 
@@ -614,4 +616,6 @@ $(".start").on("click", () => {
 });
 
 // game.deal();
+// game.dealerCardReveal();
+// $(".dealer-card-back").eq(0).attr("class", "card");
 
