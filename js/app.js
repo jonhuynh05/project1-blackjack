@@ -1,6 +1,8 @@
 const game = {
     playerHand: [],
     dealerHand: [],
+    wallet: 1000,
+    currentBet: 0,
     cardsInDeck: [
         twoSpades = {
             value: 2,
@@ -401,6 +403,7 @@ const game = {
         this.dealDealerCard();
         this.dealerCardReveal();
         $(".dealer-card-back").eq(0).attr("class", "card");
+        $(".card .card-img-top").css({"width":"118px", "height":"118px"});
         this.dealDealerCard();
         console.log(this.playerHand);
         console.log(this.dealerHand);
@@ -585,6 +588,7 @@ const game = {
     checkDealer16 () {
         $(".dealer-card-back").eq(0).attr("class", "card");
         game.dealerCardReveal();
+        $(".card .card-img-top").css({"width":"118px", "height":"118px"});
         while (this.dealerHandValue() < 17) {
             this.dealerHit();
             $(".dealer-card-back").eq(0).attr("class", "card");
