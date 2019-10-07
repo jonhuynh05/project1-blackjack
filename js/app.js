@@ -619,11 +619,22 @@ const game = {
 
     betButtonSetup () {
         const $betButton = $(".btn-primary").clone().attr("id", "bet").text("Place Bet");
-        $("#button-row").append($betButton);
+        $("#bet-button-row").append($betButton);
         const $addButton = $("#bet").clone().attr("id", "add100").text("+100 Current Bet");
-        $("#button-row").append($addButton);
+        $("#bet-button-row").append($addButton);
         const $allInButton = $("#add100").clone().attr("id", "allIn").text("All In");
-        $("#button-row").append($allInButton);
+        $("#bet-button-row").append($allInButton);        const $hitButton = $("#allIn").clone().attr("id", "hit").text("Hit");
+        $("#gameplay-button-row").append($hitButton);
+        const $standButton = $("#hit").clone().attr("id", "stand").text("Stand");
+        $("#gameplay-button-row").append($standButton);
+        const $splitButton = $("#stand").clone().attr("id", "split").text("Split");
+        $("#gameplay-button-row").append($splitButton);
+        const $doubleDownButton = $("#split").clone().attr("id", "doubleDown").text("Double Down");
+        $("#gameplay-button-row").append($doubleDownButton);
+        $("#hit").prop("disabled", true);
+        $("#stand").prop("disabled", true);
+        $("#split").prop("disabled", true);
+        $("#doubleDown").prop("disabled", true);
     },
 
     add100() {
@@ -657,9 +668,25 @@ const game = {
         });
     },
 
+    hit() {
+        $("#hit").on("click", () => {
+            this.playerHit();
+            this.checkIfPlayerBust();
+        });
+    },
+
+    // stand(){
+    //     $("#stand").on("click", () => {
+    //         this.playerHit();
+    //     });
+    // },
+
     afterPlaceBet () {
         $("#add100").prop("disabled", true);
         $("#allIn").prop("disabled", true);
+        $("#bet").prop("disabled", true);
+        $("#hit").prop("disabled", false);
+        $("#stand").prop("disabled", false);
     },
 
     updateStatus () {
@@ -678,6 +705,7 @@ $("#start").on("click", () => {
     game.add100()
     game.allIn()
     game.placeBet();
+    game.hit();
 });
 
 
