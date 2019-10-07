@@ -609,13 +609,13 @@ const game = {
 };
 
 
-$(".start").on("click", () => {
-    if(game.cardsInDeck.length === 52){
-        game.deal();
-    }
-});
+// $(".start").on("click", () => {
+//     if(game.cardsInDeck.length === 52){
+//         game.deal();
+//     }
+// });
 
-// game.deal();
-// game.dealerCardReveal();
-// $(".dealer-card-back").eq(0).attr("class", "card");
+game.deal();
+game.dealerCardReveal();
+$(".dealer-card-back").eq(0).attr("class", "card");
 

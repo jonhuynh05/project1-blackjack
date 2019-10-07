@@ -37,6 +37,14 @@ html, body{
     justify-content: center;
 } */
 
+.player-name {
+    position: absolute;
+}
+
+.dealer-name {
+    position: absolute;
+}
+
 .dealer-card-back{
     width: 12rem;
     height: 18rem;
@@ -90,4 +98,16 @@ html, body{
     font-size: 30px;
     font-weight: bolder;
     text-align: center;    
+}
+
+.btn-primary{
+    background-color: white !important;
+    border: none !important;
+    color: black !important;
+    font-weight: bolder !important;
+    margin-bottom: 10px;
+}
+
+.btn-primary:hover {
+    background-color: red !important;
 }
