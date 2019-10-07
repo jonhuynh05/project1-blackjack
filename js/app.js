@@ -558,7 +558,11 @@ const game = {
         if(this.dealerHandValue() === 21){
             this.dealerCardReveal();
             $(".dealer-card-back").eq(0).attr("class", "card");
+            $(".card .card-img-top").css({"width":"118px", "height":"118px"});
             console.log(`Dealer has blackjack!`);
+        }
+        else {
+            console.log(`Dealer does not have blackjack.`)
         }
     },
 
@@ -566,6 +570,9 @@ const game = {
 
         if(this.playerHandValue() === 21){
             console.log(`You have blackjack!`)
+        }
+        else {
+            console.log(`You do not have blackjack.`)
         }
     },
 
@@ -611,10 +618,53 @@ const game = {
     },
 
     betButtonSetup () {
-        const $betButton = $(".btn-primary").clone().attr("id", "bet").text("Bet");
+        const $betButton = $(".btn-primary").clone().attr("id", "bet").text("Place Bet");
         $("#button-row").append($betButton);
         const $addButton = $("#bet").clone().attr("id", "add100").text("+100 Current Bet");
         $("#button-row").append($addButton);
+        const $allInButton = $("#add100").clone().attr("id", "allIn").text("All In");
+        $("#button-row").append($allInButton);
+    },
+
+    add100() {
+        $("#add100").on("click", () => {
+            if(game.wallet >= 100) {
+                game.currentBet += 100;
+                game.wallet -= 100;
+                game.updateStatus();
+            }
+        });
+    },
+
+    allIn() {
+        $("#allIn").on("click", () => {
+            if(game.wallet > 0) {
+                game.currentBet += game.wallet;
+                game.wallet -= game.wallet;
+                game.updateStatus();
+            }
+        });
+    },
+    
+    placeBet() {
+        $("#bet").on("click", () => {
+            if (game.currentBet > 0) {
+                this.deal();
+                this.checkDealerBlackjack();
+                this.checkPlayerBlackjack();
+                this.afterPlaceBet();
+            }
+        });
+    },
+
+    afterPlaceBet () {
+        $("#add100").prop("disabled", true);
+        $("#allIn").prop("disabled", true);
+    },
+
+    updateStatus () {
+        $("#wallet").text(`Wallet: ${this.wallet} Pokecoins`);
+        $("#current-bet").text(`Current Bet: ${this.currentBet} Pokecoins`);
     }
 
 };
@@ -624,21 +674,13 @@ $("#start").on("click", () => {
     if(game.cardsInDeck.length === 52){
         game.betButtonSetup();
         $("#start").remove();
-        game.deal();
-        game.checkDealerBlackjack();
-        game.checkPlayerBlackjack();
     }
+    game.add100()
+    game.allIn()
+    game.placeBet();
 });
 
-$("#start").on("click", () => {
 
-    game.betButtonSetup();
-    $("#start").remove();
-
-    // if(game.cardsInDeck.length === 52){
-    //     game.deal();
-    // }
-});
 
 // game.deal();
 // game.dealerCardReveal();
