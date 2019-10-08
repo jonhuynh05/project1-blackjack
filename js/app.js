@@ -624,6 +624,8 @@ const game = {
         if(this.playerHandValue() > 21) {
             console.log(`Bust!`);
             $("#modalBust").modal();
+            $("#hit").prop("disabled", true);
+            $("#stand").prop("disabled", true);
             $("#nextRound").prop("disabled", false);
         }
     },
