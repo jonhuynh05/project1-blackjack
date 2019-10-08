@@ -550,31 +550,56 @@ const game = {
 
     playerHandValue () {
         let value = 0;
+        let aceArray = [];
         for (let i = 0; i < this.playerHand.length; i++){
             if(this.playerHand[i].icon === "ace"){
                 if(value > 21 || value + 11 > 21){
                     value += this.playerHand[i].value[0];
+                    aceArray.push(this.playerHand[i].value[0]);
                 }
                 else{
                     value += this.playerHand[i].value[1];
+                    aceArray.push(this.playerHand[i].value[1]);
                 }
             }
             else {
                 value += this.playerHand[i].value;
             }
         }
+        // let filterAce = this.playerHand.filter(function(card) {
+        //     return card.icon === "ace"
+        // })
+        // if(value > 21 && filterAce.length > 0) {
+        //     value -= 10;
+        // }
+        if(value > 21 && aceArray.length > 0){
+            let filterAce = aceArray.filter(function (ace) {
+                return ace === 11;
+            })
+            while (value > 21 && filterAce.length > 0){
+                value -= 10;
+                filterAce.splice(0, 1);
+            }
+        }
         return value;
     },
 
+    // playerAceArray () {
+
+    // },
+
     dealerHandValue () {
         let value = 0;
+        let aceArray = [];
         for (let i = 0; i < this.dealerHand.length; i++){
             if(this.dealerHand[i].icon === "ace"){
                 if(value + 11 > 21){
                     value += this.dealerHand[i].value[0];
+                    aceArray.push(this.dealerHand[i].value[0]);
                 }
                 else{
                     value += this.dealerHand[i].value[1];
+                    aceArray.push(this.dealerHand[i].value[1]);
                 }
             }
             else if(i > 0 && this.dealerHand[i-1].icon === "ace" && value + this.dealerHand[i] > 21){
@@ -583,6 +608,15 @@ const game = {
             }
             else {
                 value += this.dealerHand[i].value;
+            }
+            if(value > 21 && aceArray.length > 0){
+                let filterAce = aceArray.filter(function (ace) {
+                    return ace === 11;
+                })
+                while (value > 21 && filterAce.length > 0){
+                    value -= 10;
+                    filterAce.splice(0, 1);
+                }
             }
         }
         return value;
@@ -637,6 +671,8 @@ const game = {
             $("#hit").prop("disabled", true);
             $("#stand").prop("disabled", true);
             $("#nextRound").prop("disabled", false);
+            $("#doubleDown").prop("disabled", true);
+            $("#insurance").prop("disabled", true);
         }
     },
 
@@ -739,7 +775,6 @@ const game = {
             if (game.currentBet > 0) {
                 this.deal();
                 this.afterPlaceBet();
-                this.checkDealerBlackjack();
                 this.checkPlayerBlackjack();
             }
         });
@@ -791,7 +826,9 @@ const game = {
             $("#insurance").prop("disabled", true);
             this.checkDealerBlackjack();
             if(this.dealerHandValue() !== 21){
-                this.currentBet -= insuranceBet;            $("#modalNoDealerBlackjack").modal();
+                this.currentBet -= insuranceBet;
+                this.updateStatus();
+                $("#modalNoDealerBlackjack").modal();
             }
         });
     },
