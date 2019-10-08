@@ -739,6 +739,8 @@ const game = {
         $("#bet-button-row").append($nextRoundButton);
         const $insurance = $("#nextRound").clone().attr("id", "insurance").text("Insurance");
         $("#gameplay-button-row").append($insurance);
+        const $resetPage = $("#insurance").clone().attr("id", "reset").text("Reset Game");
+        $("#bet-button-row").append($resetPage);
         $("#hit").prop("disabled", true);
         $("#stand").prop("disabled", true);
         // $("#split").prop("disabled", true);
@@ -746,6 +748,7 @@ const game = {
         $("#nextRound").prop("disabled", true);
         $("#bet").prop("disabled", true);
         $("#insurance").prop("disabled", true);
+        $("#reset").prop("disabled", true);
     },
 
     add100() {
@@ -783,6 +786,8 @@ const game = {
     hit() {
         $("#hit").on("click", () => {
             this.playerHit();
+            $("#doubleDown").prop("disabled", true);
+            $("#insurance").prop("disabled", true);
             this.checkIfPlayerBust();
         });
     },
@@ -871,10 +876,22 @@ const game = {
 
     nextRound() {
         $("#nextRound").on("click", () => {
-            this.reset();
-            $("#dealer-hand-value").text(`Hand Value: 0`);
-            $("#player-hand-value").text(`Hand Value: 0`)
+            if(this.wallet <= 0){
+                $("#nextRound").prop("disabled", false);
+                $("#reset").prop("disabled", false);
+            }
+            else{
+                this.reset();
+                $("#dealer-hand-value").text(`Hand Value: 0`);
+                $("#player-hand-value").text(`Hand Value: 0`);
+            }
         });
+    },
+
+    resetPage () {
+        $("#reset").on("click", () => {
+            location.reload();
+        })
     }
 };
 
@@ -891,6 +908,7 @@ $("#start").on("click", () => {
     game.nextRound();
     game.doubleDown();
     game.insurance();
+    game.resetPage();
     // if (game.wallet <= 0){
     //     alert(`Team Rocket has defeated you. Try again next time.`)
     // }
