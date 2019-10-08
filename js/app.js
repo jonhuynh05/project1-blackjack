@@ -449,6 +449,7 @@ const game = {
     },
 
     playerCardReveal() {
+                // $(".player-text").eq(this.playerHand.length-1).addClass(`${this.playerHand[this.playerHand.length-1].suit} ${this.playerHand[this.playerHand.length-1].icon}`)
         $(".player-text").eq(this.playerHand.length-1).text(`${this.playerHand[this.playerHand.length-1].sign}${this.playerHand[this.playerHand.length-1].unicode}`);
         if(this.playerHand[this.playerHand.length-1].suit==="diamonds" || this.playerHand[this.playerHand.length-1].suit==="hearts"){
             $(".player-text").eq(this.playerHand.length-1).css("color", "red");
@@ -592,9 +593,9 @@ const game = {
             $(".dealer-card-back").eq(0).attr("class", "card");
             $(".card .card-img-top").css({"width":"118px", "height":"118px"});
             console.log(`Dealer has blackjack!`);
-            $("#modalDealerBlackjack").modal();
             $("#hit").prop("disabled", true);
             $("#stand").prop("disabled", true);
+            $("#modalDealerBlackjack").modal();
             $("#nextRound").prop("disabled", false);
         }
         else {
@@ -606,10 +607,10 @@ const game = {
 
         if(this.playerHandValue() === 21){
             console.log(`You have blackjack!`);
-            $("#modalPlayerBlackjack").modal();
-            this.wallet += (this.currentBet * 2.5);
             $("#hit").prop("disabled", true);
             $("#stand").prop("disabled", true);
+            $("#modalPlayerBlackjack").modal();
+            this.wallet += (this.currentBet * 2.5);
             $("#nextRound").prop("disabled", false);
         }
         else {
@@ -784,12 +785,15 @@ $("#start").on("click", () => {
         game.betButtonSetup();
         $("#start").remove();
     }
-    game.add100()
-    game.allIn()
+    game.add100();
+    game.allIn();
     game.placeBet();
     game.hit();
     game.stand();
     game.nextRound();
+    // if (game.wallet <= 0){
+    //     alert(`Team Rocket has defeated you. Try again next time.`)
+    // }
 });
 
 
