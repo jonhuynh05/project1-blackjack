@@ -707,10 +707,10 @@ const game = {
 
     add100() {
         $("#add100").on("click", () => {
-            if(game.wallet >= 100) {
-                game.currentBet += 100;
-                game.wallet -= 100;
-                game.updateStatus();
+            if(this.wallet >= 100) {
+                this.currentBet += 100;
+                this.wallet -= 100;
+                this.updateStatus();
                 $("#bet").prop("disabled", false);
             }
         });
@@ -718,10 +718,10 @@ const game = {
 
     allIn() {
         $("#allIn").on("click", () => {
-            if(game.wallet > 0) {
-                game.currentBet += game.wallet;
-                game.wallet -= game.wallet;
-                game.updateStatus();
+            if(this.wallet > 0) {
+                this.currentBet += this.wallet;
+                this.wallet -= this.wallet;
+                this.updateStatus();
                 $("#bet").prop("disabled", false);
             }
         });
@@ -754,6 +754,22 @@ const game = {
         });
     },
 
+    doubleDown(){
+        $("#doubleDown").on("click", () => {
+            if(this.wallet > this.currentBet){
+                this.wallet -= this.currentBet;
+                this.currentBet += this.currentBet;
+                this.updateStatus();
+                $("#hit").prop("disabled", true);
+                $("#stand").prop("disabled", true);
+                $("#doubleDown").prop("disabled", true);
+                this.playerHit();
+                this.checkDealer16();
+                this.checkPlayerWinner();
+            }
+        });
+    },
+
     // split(){
     //     $("#split").on("click", () => {
     //         $("#player-row").clone().attr("id", "split-row").appendTo($(".container-fluid"));
@@ -777,6 +793,7 @@ const game = {
         $("#bet").prop("disabled", true);
         $("#hit").prop("disabled", false);
         $("#stand").prop("disabled", false);
+        $("#doubleDown").prop("disabled", false);
     },
 
     updateStatus () {
@@ -804,6 +821,7 @@ $("#start").on("click", () => {
     game.hit();
     game.stand();
     game.nextRound();
+    game.doubleDown();
     // if (game.wallet <= 0){
     //     alert(`Team Rocket has defeated you. Try again next time.`)
     // }
