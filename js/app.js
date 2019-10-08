@@ -598,6 +598,8 @@ const game = {
             $("#nextRound").prop("disabled", false);
             $("#hit").prop("disabled", true);
             $("#stand").prop("disabled", true);
+            $("#doubleDown").prop("disabled", true);
+            $("#insurance").prop("disabled", true);
         }
         else {
             console.log(`Dealer does not have blackjack.`)
@@ -613,6 +615,8 @@ const game = {
             $("#nextRound").prop("disabled", false);
             $("#hit").prop("disabled", true);
             $("#stand").prop("disabled", true);
+            $("#doubleDown").prop("disabled", true);
+            $("#insurance").prop("disabled", true);
         }
         else {
             console.log(`You do not have blackjack.`)
@@ -697,12 +701,15 @@ const game = {
         $("#gameplay-button-row").append($doubleDownButton);
         const $nextRoundButton = $("#doubleDown").clone().attr("id", "nextRound").text("Next Round");
         $("#bet-button-row").append($nextRoundButton);
+        const $insurance = $("#nextRound").clone().attr("id", "insurance").text("Insurance");
+        $("#gameplay-button-row").append($insurance);
         $("#hit").prop("disabled", true);
         $("#stand").prop("disabled", true);
         // $("#split").prop("disabled", true);
         $("#doubleDown").prop("disabled", true);
         $("#nextRound").prop("disabled", true);
         $("#bet").prop("disabled", true);
+        $("#insurance").prop("disabled", true);
     },
 
     add100() {
@@ -749,6 +756,8 @@ const game = {
         $("#stand").on("click", () => {
             $("#hit").prop("disabled", true);
             $("#stand").prop("disabled", true);
+            $("#doubleDown").prop("disabled", true);
+            $("#insurance").prop("disabled", true);
             this.checkDealer16();
             this.checkPlayerWinner();
         });
@@ -764,8 +773,25 @@ const game = {
                 $("#stand").prop("disabled", true);
                 $("#doubleDown").prop("disabled", true);
                 this.playerHit();
-                this.checkDealer16();
-                this.checkPlayerWinner();
+                this.checkIfPlayerBust();
+                if(this.playerHandValue() <= 21){
+                    this.checkDealer16();
+                    this.checkPlayerWinner();
+                }
+            }
+        });
+    },
+
+    insurance () {
+        $("#insurance").on("click", () => {
+            const insuranceBet = this.currentBet / 2
+            this.wallet -= (insuranceBet);
+            this.currentBet += (insuranceBet);
+            this.updateStatus();
+            $("#insurance").prop("disabled", true);
+            this.checkDealerBlackjack();
+            if(this.dealerHandValue() !== 21){
+                this.currentBet -= insuranceBet;            $("#modalNoDealerBlackjack").modal();
             }
         });
     },
@@ -793,7 +819,12 @@ const game = {
         $("#bet").prop("disabled", true);
         $("#hit").prop("disabled", false);
         $("#stand").prop("disabled", false);
-        $("#doubleDown").prop("disabled", false);
+        if(this.wallet >= this.currentBet){
+            $("#doubleDown").prop("disabled", false);
+        }
+        if(this.dealerHand[0].icon === "ace" && this.wallet >= this.currentBet / 2){
+            $("#insurance").prop("disabled", false);
+        };
     },
 
     updateStatus () {
@@ -822,6 +853,7 @@ $("#start").on("click", () => {
     game.stand();
     game.nextRound();
     game.doubleDown();
+    game.insurance();
     // if (game.wallet <= 0){
     //     alert(`Team Rocket has defeated you. Try again next time.`)
     // }
