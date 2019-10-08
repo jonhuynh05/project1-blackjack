@@ -439,6 +439,7 @@ const game = {
         $("#dealer-row .card").attr("class", "dealer-card-back");
         $("#player-row .card").attr("class", "player-card-back");
         $("#nextRound").prop("disabled", true);
+        $("#bet").prop("disabled", true);
 
     },
 
@@ -593,10 +594,10 @@ const game = {
             $(".dealer-card-back").eq(0).attr("class", "card");
             $(".card .card-img-top").css({"width":"118px", "height":"118px"});
             console.log(`Dealer has blackjack!`);
-            $("#hit").prop("disabled", true);
-            $("#stand").prop("disabled", true);
             $("#modalDealerBlackjack").modal();
             $("#nextRound").prop("disabled", false);
+            $("#hit").prop("disabled", true);
+            $("#stand").prop("disabled", true);
         }
         else {
             console.log(`Dealer does not have blackjack.`)
@@ -607,11 +608,11 @@ const game = {
 
         if(this.playerHandValue() === 21){
             console.log(`You have blackjack!`);
-            $("#hit").prop("disabled", true);
-            $("#stand").prop("disabled", true);
             $("#modalPlayerBlackjack").modal();
             this.wallet += (this.currentBet * 2.5);
             $("#nextRound").prop("disabled", false);
+            $("#hit").prop("disabled", true);
+            $("#stand").prop("disabled", true);
         }
         else {
             console.log(`You do not have blackjack.`)
@@ -701,6 +702,7 @@ const game = {
         $("#split").prop("disabled", true);
         $("#doubleDown").prop("disabled", true);
         $("#nextRound").prop("disabled", true);
+        $("#bet").prop("disabled", true);
     },
 
     add100() {
@@ -709,6 +711,7 @@ const game = {
                 game.currentBet += 100;
                 game.wallet -= 100;
                 game.updateStatus();
+                $("#bet").prop("disabled", false);
             }
         });
     },
@@ -719,6 +722,7 @@ const game = {
                 game.currentBet += game.wallet;
                 game.wallet -= game.wallet;
                 game.updateStatus();
+                $("#bet").prop("disabled", false);
             }
         });
     },
@@ -785,9 +789,9 @@ $("#start").on("click", () => {
         game.betButtonSetup();
         $("#start").remove();
     }
+    game.placeBet();
     game.add100();
     game.allIn();
-    game.placeBet();
     game.hit();
     game.stand();
     game.nextRound();
