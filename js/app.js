@@ -590,6 +590,8 @@ const game = {
             $(".dealer-card-back").eq(0).attr("class", "card");
             $(".card .card-img-top").css({"width":"118px", "height":"118px"});
             console.log(`Dealer has blackjack!`);
+            $("#modalDealerBlackjack").modal();
+            this.reset();
         }
         else {
             console.log(`Dealer does not have blackjack.`)
@@ -599,7 +601,10 @@ const game = {
     checkPlayerBlackjack () {
 
         if(this.playerHandValue() === 21){
-            console.log(`You have blackjack!`)
+            console.log(`You have blackjack!`);
+            $("#modalPlayerBlackjack").modal();
+            this.wallet += (this.currentBet * 2.5)
+            this.reset();
         }
         else {
             console.log(`You do not have blackjack.`)
@@ -641,11 +646,28 @@ const game = {
     },
 
     checkPlayerWinner () {
-        if(this.playerHandValue() > this.dealerHandValue() && this.playerHandValue() <= 21) {
-            console.log(`You win!`)
+        if (this.dealerHandValue() > 21) {
+            console.log(`You win!`);
+            $("#modalWin").modal();
+            this.wallet += (this.currentBet * 2);
+            this.reset();
+        }
+        else if(this.playerHandValue() > this.dealerHandValue() && this.playerHandValue() <= 21) {
+            console.log(`You win!`);
+            $("#modalWin").modal();
+            this.wallet += (this.currentBet * 2);
+            this.reset();
+        }
+        else if (this.playerHandValue() === this.dealerHandValue() && this.dealerHandValue() <= 21 && this.playerHandValue() <= 21){
+            console.log(`It's a draw!`)
+            $("#modalDraw").modal();
+            this.wallet += this.currentBet;
+            this.reset();
         }
         else if (this.playerHandValue() < this.dealerHandValue() && this.dealerHandValue() <= 21){
             console.log(`Dealer wins!`)
+            $("#modalLost").modal();
+            this.reset();
         }
     },
 
@@ -711,7 +733,8 @@ const game = {
         $("#stand").on("click", () => {
             $("#hit").prop("disabled", true);
             $("#stand").prop("disabled", true);
-            game.checkDealer16();
+            this.checkDealer16();
+            this.checkPlayerWinner();
         });
     },
 
@@ -737,7 +760,6 @@ const game = {
     }
 
 };
-
 
 $("#start").on("click", () => {
     if(game.cardsInDeck.length === 52){
