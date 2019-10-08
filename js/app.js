@@ -685,10 +685,13 @@ const game = {
         $("#gameplay-button-row").append($splitButton);
         const $doubleDownButton = $("#split").clone().attr("id", "doubleDown").text("Double Down");
         $("#gameplay-button-row").append($doubleDownButton);
+        const $nextRoundButton = $("#doubleDown").clone().attr("id", "nextRound").text("Next Round");
+        $("#bet-button-row").append($nextRoundButton);
         $("#hit").prop("disabled", true);
         $("#stand").prop("disabled", true);
         $("#split").prop("disabled", true);
         $("#doubleDown").prop("disabled", true);
+        $("#nextRound").prop("disabled", true);
     },
 
     add100() {
