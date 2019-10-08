@@ -593,6 +593,8 @@ const game = {
             $(".card .card-img-top").css({"width":"118px", "height":"118px"});
             console.log(`Dealer has blackjack!`);
             $("#modalDealerBlackjack").modal();
+            $("#hit").prop("disabled", true);
+            $("#stand").prop("disabled", true);
             $("#nextRound").prop("disabled", false);
         }
         else {
@@ -605,7 +607,9 @@ const game = {
         if(this.playerHandValue() === 21){
             console.log(`You have blackjack!`);
             $("#modalPlayerBlackjack").modal();
-            this.wallet += (this.currentBet * 2.5)
+            this.wallet += (this.currentBet * 2.5);
+            $("#hit").prop("disabled", true);
+            $("#stand").prop("disabled", true);
             $("#nextRound").prop("disabled", false);
         }
         else {
