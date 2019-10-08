@@ -438,6 +438,8 @@ const game = {
         };
         $("#dealer-row .card").attr("class", "dealer-card-back");
         $("#player-row .card").attr("class", "player-card-back");
+        $("#nextRound").prop("disabled", true);
+
     },
 
     dealPlayerCard() {
@@ -591,7 +593,7 @@ const game = {
             $(".card .card-img-top").css({"width":"118px", "height":"118px"});
             console.log(`Dealer has blackjack!`);
             $("#modalDealerBlackjack").modal();
-            this.reset();
+            $("#nextRound").prop("disabled", false);
         }
         else {
             console.log(`Dealer does not have blackjack.`)
@@ -604,7 +606,7 @@ const game = {
             console.log(`You have blackjack!`);
             $("#modalPlayerBlackjack").modal();
             this.wallet += (this.currentBet * 2.5)
-            this.reset();
+            $("#nextRound").prop("disabled", false);
         }
         else {
             console.log(`You do not have blackjack.`)
@@ -622,7 +624,7 @@ const game = {
         if(this.playerHandValue() > 21) {
             console.log(`Bust!`);
             $("#modalBust").modal();
-            game.reset();
+            $("#nextRound").prop("disabled", false);
         }
     },
 
@@ -650,24 +652,24 @@ const game = {
             console.log(`You win!`);
             $("#modalWin").modal();
             this.wallet += (this.currentBet * 2);
-            this.reset();
+            $("#nextRound").prop("disabled", false);
         }
         else if(this.playerHandValue() > this.dealerHandValue() && this.playerHandValue() <= 21) {
             console.log(`You win!`);
             $("#modalWin").modal();
             this.wallet += (this.currentBet * 2);
-            this.reset();
+            $("#nextRound").prop("disabled", false);
         }
         else if (this.playerHandValue() === this.dealerHandValue() && this.dealerHandValue() <= 21 && this.playerHandValue() <= 21){
             console.log(`It's a draw!`)
             $("#modalDraw").modal();
             this.wallet += this.currentBet;
-            this.reset();
+            $("#nextRound").prop("disabled", false);
         }
         else if (this.playerHandValue() < this.dealerHandValue() && this.dealerHandValue() <= 21){
             console.log(`Dealer wins!`)
             $("#modalLost").modal();
-            this.reset();
+            $("#nextRound").prop("disabled", false);
         }
     },
 
@@ -760,8 +762,15 @@ const game = {
     updateStatus () {
         $("#wallet").text(`Wallet: ${this.wallet} Pokecoins`);
         $("#current-bet").text(`Current Bet: ${this.currentBet} Pokecoins`);
-    }
+    },
 
+    nextRound() {
+        $("#nextRound").on("click", () => {
+            this.reset();
+            $("#dealer-hand-value").text(`Hand Value: 0`);
+            $("#player-hand-value").text(`Hand Value: 0`)
+        });
+    }
 };
 
 $("#start").on("click", () => {
@@ -774,6 +783,7 @@ $("#start").on("click", () => {
     game.placeBet();
     game.hit();
     game.stand();
+    game.nextRound();
 });
 
 
