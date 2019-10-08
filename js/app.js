@@ -731,9 +731,9 @@ const game = {
         $("#bet").on("click", () => {
             if (game.currentBet > 0) {
                 this.deal();
+                this.afterPlaceBet();
                 this.checkDealerBlackjack();
                 this.checkPlayerBlackjack();
-                this.afterPlaceBet();
             }
         });
     },
