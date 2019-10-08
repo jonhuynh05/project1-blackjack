@@ -754,6 +754,15 @@ const game = {
         });
     },
 
+    // split(){
+    //     $("#split").on("click", () => {
+    //         $("#player-row").clone().attr("id", "split-row").appendTo($(".container-fluid"));
+    //         const $splitRow = $("#split-row")
+    //         $splitRow.prev().insertAfter($splitRow);
+    //         $splitRow.prev().insertAfter($splitRow);
+    //     });
+    // },
+
     beforePlaceBet () {
         $("#add100").prop("disabled", false);
         $("#allIn").prop("disabled", false);
