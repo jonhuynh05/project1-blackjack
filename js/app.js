@@ -756,6 +756,8 @@ const game = {
                 this.currentBet += this.wallet;
                 this.wallet -= this.wallet;
                 this.updateStatus();
+                $("#add100").prop("disabled", true);
+                $("#allIn").prop("disabled", true);
                 $("#bet").prop("disabled", false);
             }
         });
