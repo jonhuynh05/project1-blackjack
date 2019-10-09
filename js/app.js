@@ -848,6 +848,9 @@ const game = {
 
     split(){
         $("#split").on("click", () => {
+            $("#split").prop("disabled", true);
+            this.wallet -= this.currentBet;
+            this.updateStatus();
             this.splitHand.push(this.playerHand[1]);
             this.playerHand.splice(1, 1);
             $("#player-row").clone().attr("id", "split-row").appendTo($(".container-fluid"));
@@ -856,18 +859,21 @@ const game = {
             $splitRow.prev().insertAfter($splitRow);
             $("#player-row #player-card2").remove();
             $("#split-row #player-card1").remove();
-            $("#player-hand-value").text(`Hand Value: ${this.playerHand[0].value}`)
-            $("#dealer-status-row").clone().attr("id", "split-status-row").appendTo($(".container-fluid"));
+            $("#player-hand-value").text(`Hand Value: ${this.playerHand[0].value}`);
+
+            $("#player-status-row").clone().attr("id", "split-status-row").appendTo($(".container-fluid"));
+            $(".player-status").eq(3).remove();
             const $splitStatusRow = $("#split-status-row");
-            $("#split-status-row #dealer-hand-value").attr({class:"split-status", id:"split-hand-value"});
+            $("#split-status-row #player-hand-value").attr({class:"split-status", id:"split-hand-value"});
+            $("#split-status-row #current-bet").attr({class:"split-status", id:"split-current-bet"});
             $splitStatusRow.prev().insertAfter($splitStatusRow);
             $splitStatusRow.prev().insertAfter($splitStatusRow);
             $splitStatusRow.prev().insertAfter($splitStatusRow);
             if(this.splitHand[0].icon === "ace"){
-                $splitStatusRow.text(`Hand Value: 11`);
+                $("#split-hand-value").text(`Hand Value: 11`);
             }
             else{
-                $splitStatusRow.text(`Hand Value: ${this.splitHand[0].value}`);
+                $("#split-hand-value").text(`Hand Value: ${this.splitHand[0].value}`);
             }
         });
     },
