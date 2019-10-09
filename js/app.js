@@ -590,16 +590,16 @@ const game = {
 
     dealerHandValue () {
         let value = 0;
-        let aceArray = [];
+        let aceDealerArray = [];
         for (let i = 0; i < this.dealerHand.length; i++){
             if(this.dealerHand[i].icon === "ace"){
                 if(value + 11 > 21){
                     value += this.dealerHand[i].value[0];
-                    aceArray.push(this.dealerHand[i].value[0]);
+                    aceDealerArray.push(this.dealerHand[i].value[0]);
                 }
                 else{
                     value += this.dealerHand[i].value[1];
-                    aceArray.push(this.dealerHand[i].value[1]);
+                    aceDealerArray.push(this.dealerHand[i].value[1]);
                 }
             }
             else if(i > 0 && this.dealerHand[i-1].icon === "ace" && value + this.dealerHand[i] > 21){
@@ -609,13 +609,13 @@ const game = {
             else {
                 value += this.dealerHand[i].value;
             }
-            if(value > 21 && aceArray.length > 0){
-                let filterAce = aceArray.filter(function (ace) {
+            if(value > 21 && aceDealerArray.length > 0){
+                let filterDealerAce = aceDealerArray.filter(function (ace) {
                     return ace === 11;
                 })
-                while (value > 21 && filterAce.length > 0){
+                while (value > 21 && filterDealerAce.length > 0){
                     value -= 10;
-                    filterAce.splice(0, 1);
+                    filterDealerAce.splice(0, 1);
                 }
             }
         }
@@ -634,6 +634,7 @@ const game = {
             $("#stand").prop("disabled", true);
             $("#doubleDown").prop("disabled", true);
             $("#insurance").prop("disabled", true);
+            $("#no-insurance").prop("disabled", true);
         }
         else {
             console.log(`Dealer does not have blackjack.`)
@@ -651,6 +652,7 @@ const game = {
             $("#stand").prop("disabled", true);
             $("#doubleDown").prop("disabled", true);
             $("#insurance").prop("disabled", true);
+            $("#no-insurance").prop("disabled", true);
         }
         else {
             console.log(`You do not have blackjack.`)
@@ -741,6 +743,8 @@ const game = {
         $("#gameplay-button-row").append($insurance);
         const $resetPage = $("#insurance").clone().attr("id", "reset").text("Reset Game");
         $("#bet-button-row").append($resetPage);
+        const $noInsurance = $("#reset").clone().attr("id", "no-insurance").text("No Insurance");
+        $("#gameplay-button-row").append($noInsurance);
         $("#hit").prop("disabled", true);
         $("#stand").prop("disabled", true);
         // $("#split").prop("disabled", true);
@@ -749,6 +753,8 @@ const game = {
         $("#bet").prop("disabled", true);
         $("#insurance").prop("disabled", true);
         $("#reset").prop("disabled", true);
+        $("#no-insurance").prop("disabled", true);
+
     },
 
     add100() {
@@ -775,10 +781,13 @@ const game = {
     
     placeBet() {
         $("#bet").on("click", () => {
-            if (game.currentBet > 0) {
+            if (this.currentBet > 0) {
                 this.deal();
                 this.afterPlaceBet();
                 this.checkPlayerBlackjack();
+                if(this.dealerHand[0].icon !== "ace"){
+                    this.checkDealerBlackjack();
+                }
             }
         });
     },
@@ -834,7 +843,23 @@ const game = {
                 this.currentBet -= insuranceBet;
                 this.updateStatus();
                 $("#modalNoDealerBlackjack").modal();
+                $("#insurance").prop("disabled", true);
+                $("#no-insurance").prop("disabled", true);
+                $("#hit").prop("disabled", false);
+                $("#stand").prop("disabled", false);
+                $("#doubleDown").prop("disabled", false);
             }
+        });
+    },
+
+    noInsurance () {
+        $("#no-insurance").on("click", () => {
+            $("#insurance").prop("disabled", true);
+            $("#no-insurance").prop("disabled", true);
+            $("#hit").prop("disabled", false);
+            $("#stand").prop("disabled", false);
+            $("#doubleDown").prop("disabled", false);
+            this.checkDealerBlackjack();
         });
     },
 
@@ -866,6 +891,11 @@ const game = {
         }
         if(this.dealerHand[0].icon === "ace" && this.wallet >= this.currentBet / 2){
             $("#insurance").prop("disabled", false);
+            $("#no-insurance").prop("disabled", false);
+            $("#hit").prop("disabled", true);
+            $("#stand").prop("disabled", true);
+            $("#doubleDown").prop("disabled", true);
+
         };
     },
 
@@ -877,7 +907,7 @@ const game = {
     nextRound() {
         $("#nextRound").on("click", () => {
             if(this.wallet <= 0){
-                $("#nextRound").prop("disabled", false);
+                $("#nextRound").prop("disabled", true);
                 $("#reset").prop("disabled", false);
             }
             else{
@@ -909,6 +939,7 @@ $("#start").on("click", () => {
     game.doubleDown();
     game.insurance();
     game.resetPage();
+    game.noInsurance();
     // if (game.wallet <= 0){
     //     alert(`Team Rocket has defeated you. Try again next time.`)
     // }
