@@ -725,6 +725,8 @@ const game = {
         $("#bet-button-row").append($resetPage);
         const $noInsurance = $("#reset").clone().attr("id", "no-insurance").text("No Insurance");
         $("#gameplay-button-row").append($noInsurance);
+        const $music = $("#no-insurance").clone().attr("id", "music").text("Toggle Music");
+        $("#bet-button-row").append($music);
         $("#hit").prop("disabled", true);
         $("#stand").prop("disabled", true);
         // $("#split").prop("disabled", true);
@@ -903,13 +905,29 @@ const game = {
         $("#reset").on("click", () => {
             location.reload();
         })
+    },
+
+    musicToggle () {
+        $("#music").on("click", () => {
+            audio.loop = true;
+            if (audio.paused === false) {
+                audio.pause();
+            }
+            else {
+                audio.play();
+            }
+        })
     }
 };
+
+const audio = new Audio("sound/pokemon-theme-song-instrumental.mp3");
 
 $("#start").on("click", () => {
     if(game.cardsInDeck.length === 52){
         game.betButtonSetup();
         $("#start").remove();
+
+
         // const audio = new Audio("sound/pokemon-theme-song-instrumental.mp3");
         // audio.play();
     }
@@ -923,4 +941,5 @@ $("#start").on("click", () => {
     game.insurance();
     game.resetPage();
     game.noInsurance();
+    game.musicToggle();
 });
