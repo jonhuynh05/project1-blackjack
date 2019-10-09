@@ -794,19 +794,17 @@ const game = {
 
     doubleDown(){
         $("#doubleDown").on("click", () => {
-            if(this.wallet > this.currentBet){
-                this.wallet -= this.currentBet;
-                this.currentBet += this.currentBet;
-                this.updateStatus();
-                $("#hit").prop("disabled", true);
-                $("#stand").prop("disabled", true);
-                $("#doubleDown").prop("disabled", true);
-                this.playerHit();
-                this.checkIfPlayerBust();
-                if(this.playerHandValue() <= 21){
-                    this.checkDealer16();
-                    this.checkPlayerWinner();
-                }
+            this.wallet -= this.currentBet;
+            this.currentBet += this.currentBet;
+            this.updateStatus();
+            $("#hit").prop("disabled", true);
+            $("#stand").prop("disabled", true);
+            $("#doubleDown").prop("disabled", true);
+            this.playerHit();
+            this.checkIfPlayerBust();
+            if(this.playerHandValue() <= 21){
+                this.checkDealer16();
+                this.checkPlayerWinner();
             }
         });
     },
@@ -912,6 +910,8 @@ $("#start").on("click", () => {
     if(game.cardsInDeck.length === 52){
         game.betButtonSetup();
         $("#start").remove();
+        // const audio = new Audio("sound/pokemon-theme-song-instrumental.mp3");
+        // audio.play();
     }
     game.placeBet();
     game.add100();
