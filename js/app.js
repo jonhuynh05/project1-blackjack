@@ -392,6 +392,10 @@ const game = {
         return Math.floor(Math.random() * this.cardsInDeck.length)
     },
 
+    randomSplitCard () {
+        return Math.floor(Math.random() * this.cardsInDeck.length)
+    },
+
     randomDealerCard () {
         return Math.floor(Math.random() * this.cardsInDeck.length)
     },
@@ -866,6 +870,9 @@ const game = {
             const $splitStatusRow = $("#split-status-row");
             $("#split-status-row #player-hand-value").attr({class:"split-status", id:"split-hand-value"});
             $("#split-status-row #current-bet").attr({class:"split-status", id:"split-current-bet"});
+            $("#split-row .card").attr("id", "split-card");
+            $("#split-row .card-text").attr("class", "card-text split-text")
+
             $splitStatusRow.prev().insertAfter($splitStatusRow);
             $splitStatusRow.prev().insertAfter($splitStatusRow);
             $splitStatusRow.prev().insertAfter($splitStatusRow);
@@ -876,6 +883,93 @@ const game = {
                 $("#split-hand-value").text(`Hand Value: ${this.splitHand[0].value}`);
             }
         });
+    },
+
+    dealSplitCard() {
+        let randSplitNum = this.randomSplitCard();
+        this.splitHand.push(this.cardsInDeck[randSplitNum]);
+        this.cardsInDeck.splice(randSpliceNum, 1);
+    },
+
+    splitHit () {
+        this.dealSplitCard();
+        $(".card").eq(this.splitHand.length).clone().attr("id", `split-card${this.splitHand.length}`).appendTo("#split-row");
+        this.splitCardReveal();
+        $("#split-hand-value").text(`Hand Value: ${this.splitHandValue()}`);
+    },
+
+    splitCardReveal() {
+                // $(".player-text").eq(this.playerHand.length-1).addClass(`${this.playerHand[this.playerHand.length-1].suit} ${this.playerHand[this.playerHand.length-1].icon}`)
+        $(".split-text").eq(this.splitHand.length-1).text(`${this.splitHand[this.splitHand.length-1].sign}${this.splitHand[this.splitHand.length-1].unicode}`);
+        if(this.splitHand[this.splitHand.length-1].suit==="diamonds" || this.splitHand[this.splitHand.length-1].suit==="hearts"){
+            $(".split-text").eq(this.splitHand.length-1).css("color", "red");
+        }
+        else{
+            $(".split-text").eq(this.splitHand.length-1).css("color", "black");
+        };
+        if(this.splitHand[this.splitHand.length-1].icon==="two"){
+            $("#split-row .player-card-img").eq(this.splitHand.length-1).attr("src", caterpie)
+        }
+        else if(this.splitHand[this.splitHand.length-1].icon==="three"){
+            $("#split-row .player-card-img").eq(this.splitHand.length-1).attr("src", zubat)
+        }
+        else if(this.splitHand[this.splitHand.length-1].icon==="four"){
+            $("#split-row .player-card-img").eq(this.splitHand.length-1).attr("src", geodude)
+        }
+        else if(this.splitHand[this.splitHand.length-1].icon==="five"){
+            $("#split-row .player-card-img").eq(this.splitHand.length-1).attr("src", machop)
+        }
+        else if(this.splitHand[this.splitHand.length-1].icon==="six"){
+            $("#split-row .player-card-img").eq(this.splitHand.length-1).attr("src", gastly)
+        }
+        else if(this.splitHand[this.splitHand.length-1].icon==="seven"){
+            $("#split-row .player-card-img").eq(this.splitHand.length-1).attr("src", chansey)
+        }
+        else if(this.splitHand[this.splitHand.length-1].icon==="eight"){
+            $("#split-row .player-card-img").eq(this.splitHand.length-1).attr("src", alakazam)
+        }
+        else if(this.splitHand[this.splitHand.length-1].icon==="nine"){
+            $("#split-row .player-card-img").eq(this.splitHand.length-1).attr("src", onix)
+        }
+        else if(this.splitHand[this.splitHand.length-1].icon==="ten"){
+            $("#split-row .player-card-img").eq(this.splitHand.length-1).attr("src", gyrados)
+        }
+        else if(this.splitHand[this.splitHand.length-1].icon==="jack"){
+            $("#split-row .player-card-img").eq(this.splitHand.length-1).attr("src", snorlax)
+        }
+        else if(this.splitHand[this.splitHand.length-1].icon==="queen"){
+            $("#split-row .player-card-img").eq(this.splitHand.length-1).attr("src", dragonite)
+        }
+        else if(this.splitHand[this.splitHand.length-1].icon==="king"){
+            $("#split-row .player-card-img").eq(this.splitHand.length-1).attr("src", mewtwo)
+        }
+        else if(this.splitHand[this.splitHand.length-1].icon==="ace"){
+            $("#split-row .player-card-img").eq(this.splitHand.length-1).attr("src", pikachu)
+        };
+    },
+
+    splitHandValue () {
+        let value = 0;
+        let aceSplitArray = [];
+        for (let i = 0; i < this.splitHand.length; i++){
+            if(this.splitHand[i].icon === "ace"){
+                if(value > 21 || value + 11 > 21){
+                    value += this.splitHand[i].value[0];
+                }
+                else{
+                    value += this.splitHand[i].value[1];
+                    aceSplitArray.push(this.splitHand[i].value[1]);
+                }
+            }
+            else {
+                value += this.splitHand[i].value;
+            }
+        }
+        while (value > 21 && aceSplitArray.length > 0){
+            value -= 10;
+            aceSplitArray.splice(0, 1);
+        }
+        return value;
     },
 
     beforePlaceBet () {
