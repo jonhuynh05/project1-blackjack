@@ -882,20 +882,35 @@ const game = {
             else{
                 $("#split-hand-value").text(`Hand Value: ${this.splitHand[0].value}`);
             }
-        });
+
+            $("#gameplay-button-row").clone().attr("id", "split-button-row").appendTo($(".container-fluid"));
+            $("#split-button-row").children().remove();
+            const $splitHit = $("#split").clone().attr("id", "splitHit").text("Split Hit");
+            $("#split-button-row").append($splitHit);
+            const $splitStand = $("#splitHit").clone().attr("id", "splitStand").text("Split Stand");
+            $("#split-button-row").append($splitStand);
+            const $splitDoubleDown = $("#splitStand").clone().attr("id", "splitDoubleDown").text("Split Double Down");
+            $("#split-button-row").append($splitDoubleDown);
+            $("#splitHit").prop("disabled", false);
+            $("#splitStand").prop("disabled", false);
+            $("#splitDoubleDown").prop("disabled", false);
+            this.splitHitButton();
+            this.splitStand();
+            this.splitDoubleDown();
+            });
     },
 
     dealSplitCard() {
         let randSplitNum = this.randomSplitCard();
         this.splitHand.push(this.cardsInDeck[randSplitNum]);
-        this.cardsInDeck.splice(randSpliceNum, 1);
+        this.cardsInDeck.splice(randSplitNum, 1);
     },
 
     splitHit () {
         this.dealSplitCard();
-        $(".card").eq(this.splitHand.length).clone().attr("id", `split-card${this.splitHand.length}`).appendTo("#split-row");
-        this.splitCardReveal();
-        $("#split-hand-value").text(`Hand Value: ${this.splitHandValue()}`);
+        // $(".card").eq(this.splitHand.length).clone().attr("id", `split-card${this.splitHand.length}`).appendTo("#split-row");
+        // this.splitCardReveal();
+        // $("#split-hand-value").text(`Hand Value: ${this.splitHandValue()}`);
     },
 
     splitCardReveal() {
@@ -970,6 +985,40 @@ const game = {
             aceSplitArray.splice(0, 1);
         }
         return value;
+    },
+
+    splitHitButton() {
+        $("#splitHit").on("click", () => {
+            this.splitHit();
+            // this.checkIfPlayerBust();
+        });
+    },
+
+    splitStand(){
+        $("#splitStand").on("click", () => {
+            $("#splitHit").prop("disabled", true);
+            $("#splitStand").prop("disabled", true);
+            $("#splitDoubleDown").prop("disabled", true);
+            // this.checkDealer16();
+            // this.checkPlayerWinner();
+        });
+    },
+
+    splitDoubleDown(){
+        $("#splitDoubleDown").on("click", () => {
+            // this.wallet -= this.currentBet;
+            // this.currentBet += this.currentBet;
+            // this.updateStatus();
+            $("#splitHit").prop("disabled", true);
+            $("#splitStand").prop("disabled", true);
+            $("#splitDoubleDown").prop("disabled", true);
+            this.splitHit();
+            // this.checkIfPlayerBust();
+            // if(this.playerHandValue() <= 21){
+            //     this.checkDealer16();
+            //     this.checkPlayerWinner();
+            // }
+        });
     },
 
     beforePlaceBet () {

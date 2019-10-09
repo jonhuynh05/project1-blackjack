@@ -13,7 +13,7 @@ html, body{
     /* background-color: rgb(17, 109, 17); */
     background-color: black;
     /* height: 100%; */
-    width: 100%;
+    /* width: 100%; */
     display: flex;
     flex-direction: column;
     justify-content: center;
