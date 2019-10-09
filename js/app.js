@@ -454,6 +454,9 @@ const game = {
         $(".player-text").eq(this.playerHand.length-1).text(`${this.playerHand[this.playerHand.length-1].sign}${this.playerHand[this.playerHand.length-1].unicode}`);
         if(this.playerHand[this.playerHand.length-1].suit==="diamonds" || this.playerHand[this.playerHand.length-1].suit==="hearts"){
             $(".player-text").eq(this.playerHand.length-1).css("color", "red");
+        }
+        else{
+            $(".player-text").eq(this.playerHand.length-1).css("color", "black");
         };
         if(this.playerHand[this.playerHand.length-1].icon==="two"){
             $(".player-card-img").eq(this.playerHand.length-1).attr("src", caterpie)
@@ -506,6 +509,9 @@ const game = {
         $(".dealer-text").eq(this.dealerHand.length-1).text(`${this.dealerHand[this.dealerHand.length-1].sign}${this.dealerHand[this.dealerHand.length-1].unicode}`);
         if(this.dealerHand[this.dealerHand.length-1].suit==="diamonds" || this.dealerHand[this.dealerHand.length-1].suit==="hearts"){
             $(".dealer-text").eq(this.dealerHand.length-1).css("color", "red");
+        }
+        else {
+            $(".dealer-text").eq(this.dealerHand.length-1).css("color", "black");
         };
         if(this.dealerHand[this.dealerHand.length-1].icon==="two"){
             $(".dealer-card-img").eq(this.dealerHand.length-1).attr("src", caterpie)
@@ -550,43 +556,27 @@ const game = {
 
     playerHandValue () {
         let value = 0;
-        let aceArray = [];
+        let acePlayerArray = [];
         for (let i = 0; i < this.playerHand.length; i++){
             if(this.playerHand[i].icon === "ace"){
                 if(value > 21 || value + 11 > 21){
                     value += this.playerHand[i].value[0];
-                    aceArray.push(this.playerHand[i].value[0]);
                 }
                 else{
                     value += this.playerHand[i].value[1];
-                    aceArray.push(this.playerHand[i].value[1]);
+                    acePlayerArray.push(this.playerHand[i].value[1]);
                 }
             }
             else {
                 value += this.playerHand[i].value;
             }
         }
-        // let filterAce = this.playerHand.filter(function(card) {
-        //     return card.icon === "ace"
-        // })
-        // if(value > 21 && filterAce.length > 0) {
-        //     value -= 10;
-        // }
-        if(value > 21 && aceArray.length > 0){
-            let filterAce = aceArray.filter(function (ace) {
-                return ace === 11;
-            })
-            while (value > 21 && filterAce.length > 0){
-                value -= 10;
-                filterAce.splice(0, 1);
-            }
+        while (value > 21 && acePlayerArray.length > 0){
+            value -= 10;
+            acePlayerArray.splice(0, 1);
         }
         return value;
     },
-
-    // playerAceArray () {
-
-    // },
 
     dealerHandValue () {
         let value = 0;
@@ -595,29 +585,19 @@ const game = {
             if(this.dealerHand[i].icon === "ace"){
                 if(value + 11 > 21){
                     value += this.dealerHand[i].value[0];
-                    aceDealerArray.push(this.dealerHand[i].value[0]);
                 }
                 else{
                     value += this.dealerHand[i].value[1];
                     aceDealerArray.push(this.dealerHand[i].value[1]);
                 }
             }
-            else if(i > 0 && this.dealerHand[i-1].icon === "ace" && value + this.dealerHand[i] > 21){
-                value += this.dealerHand[i].value;
-                value -= 10;
-            }
             else {
                 value += this.dealerHand[i].value;
             }
-            if(value > 21 && aceDealerArray.length > 0){
-                let filterDealerAce = aceDealerArray.filter(function (ace) {
-                    return ace === 11;
-                })
-                while (value > 21 && filterDealerAce.length > 0){
-                    value -= 10;
-                    filterDealerAce.splice(0, 1);
-                }
-            }
+        }
+        while (value > 21 && aceDealerArray.length > 0){
+            value -= 10;
+            aceDealerArray.splice(0, 1);
         }
         return value;
     },
