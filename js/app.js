@@ -1,6 +1,7 @@
 const game = {
     playerHand: [],
     dealerHand: [],
+    splitHand: [],
     wallet: 1000,
     currentBet: 0,
     cardsInDeck: [
@@ -713,8 +714,6 @@ const game = {
         $("#gameplay-button-row").append($hitButton);
         const $standButton = $("#hit").clone().attr("id", "stand").text("Stand");
         $("#gameplay-button-row").append($standButton);
-        // const $splitButton = $("#stand").clone().attr("id", "split").text("Split");
-        // $("#gameplay-button-row").append($splitButton);
         const $doubleDownButton = $("#stand").clone().attr("id", "doubleDown").text("Double Down");
         $("#gameplay-button-row").append($doubleDownButton);
         const $nextRoundButton = $("#doubleDown").clone().attr("id", "nextRound").text("Next Round");
@@ -727,6 +726,8 @@ const game = {
         $("#gameplay-button-row").append($noInsurance);
         const $music = $("#no-insurance").clone().attr("id", "music").text("Toggle Music");
         $("#bet-button-row").append($music);
+        const $splitButton = $("#music").clone().attr("id", "split").text("Split");
+        $("#gameplay-button-row").append($splitButton);
         $("#hit").prop("disabled", true);
         $("#stand").prop("disabled", true);
         // $("#split").prop("disabled", true);
@@ -845,14 +846,18 @@ const game = {
         });
     },
 
-    // split(){
-    //     $("#split").on("click", () => {
-    //         $("#player-row").clone().attr("id", "split-row").appendTo($(".container-fluid"));
-    //         const $splitRow = $("#split-row")
-    //         $splitRow.prev().insertAfter($splitRow);
-    //         $splitRow.prev().insertAfter($splitRow);
-    //     });
-    // },
+    split(){
+        $("#split").on("click", () => {
+            this.splitHand.push(this.playerHand[1]);
+            this.playerHand.splice(1, 1);
+            $("#player-row").clone().attr("id", "split-row").appendTo($(".container-fluid"));
+            const $splitRow = $("#split-row")
+            $splitRow.prev().insertAfter($splitRow);
+            $splitRow.prev().insertAfter($splitRow);
+            $("#player-row #player-card2").remove();
+            $("#split-row #player-card1").remove();
+        });
+    },
 
     beforePlaceBet () {
         $("#add100").prop("disabled", false);
@@ -944,4 +949,5 @@ $("#start").on("click", () => {
     game.resetPage();
     game.noInsurance();
     game.musicToggle();
+    game.split();
 });
