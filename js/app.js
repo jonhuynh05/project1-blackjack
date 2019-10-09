@@ -875,8 +875,11 @@ const game = {
             $("#hit").prop("disabled", true);
             $("#stand").prop("disabled", true);
             $("#doubleDown").prop("disabled", true);
+        }
+        else if(this.dealerHand[0].icon === "ace" && this.wallet < this.currentBet / 2){
+            this.checkDealerBlackjack();
+        }
 
-        };
     },
 
     updateStatus () {
@@ -920,14 +923,4 @@ $("#start").on("click", () => {
     game.insurance();
     game.resetPage();
     game.noInsurance();
-    // if (game.wallet <= 0){
-    //     alert(`Team Rocket has defeated you. Try again next time.`)
-    // }
 });
-
-
-
-// game.deal();
-// game.dealerCardReveal();
-// $(".dealer-card-back").eq(0).attr("class", "card");
-
