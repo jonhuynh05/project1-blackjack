@@ -856,6 +856,19 @@ const game = {
             $splitRow.prev().insertAfter($splitRow);
             $("#player-row #player-card2").remove();
             $("#split-row #player-card1").remove();
+            $("#player-hand-value").text(`Hand Value: ${this.playerHand[0].value}`)
+            $("#dealer-status-row").clone().attr("id", "split-status-row").appendTo($(".container-fluid"));
+            const $splitStatusRow = $("#split-status-row");
+            $("#split-status-row #dealer-hand-value").attr({class:"split-status", id:"split-hand-value"});
+            $splitStatusRow.prev().insertAfter($splitStatusRow);
+            $splitStatusRow.prev().insertAfter($splitStatusRow);
+            $splitStatusRow.prev().insertAfter($splitStatusRow);
+            if(this.splitHand[0].icon === "ace"){
+                $splitStatusRow.text(`Hand Value: 11`);
+            }
+            else{
+                $splitStatusRow.text(`Hand Value: ${this.splitHand[0].value}`);
+            }
         });
     },
 
