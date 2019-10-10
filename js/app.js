@@ -908,13 +908,12 @@ const game = {
 
     splitHit () {
         this.dealSplitCard();
-        // $(".card").eq(this.splitHand.length).clone().attr("id", `split-card${this.splitHand.length}`).appendTo("#split-row");
-        // this.splitCardReveal();
-        // $("#split-hand-value").text(`Hand Value: ${this.splitHandValue()}`);
+        $("#split-row .card").eq(0).clone().attr("id", `split-card${this.splitHand.length}`).appendTo("#split-row");
+        this.splitCardReveal();
+        $("#split-hand-value").text(`Hand Value: ${this.splitHandValue()}`);
     },
 
     splitCardReveal() {
-                // $(".player-text").eq(this.playerHand.length-1).addClass(`${this.playerHand[this.playerHand.length-1].suit} ${this.playerHand[this.playerHand.length-1].icon}`)
         $(".split-text").eq(this.splitHand.length-1).text(`${this.splitHand[this.splitHand.length-1].sign}${this.splitHand[this.splitHand.length-1].unicode}`);
         if(this.splitHand[this.splitHand.length-1].suit==="diamonds" || this.splitHand[this.splitHand.length-1].suit==="hearts"){
             $(".split-text").eq(this.splitHand.length-1).css("color", "red");
