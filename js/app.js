@@ -1007,10 +1007,23 @@ const game = {
         return value;
     },
 
+    checkIfSplitBust () {
+         if(this.splitHandValue() > 21) {
+            console.log(`Bust!`);
+            $("#modalBust").modal();
+            $("#splitHit").prop("disabled", true);
+            $("#splitStand").prop("disabled", true);
+            $("#splitDoubleDown").prop("disabled", true);
+        };
+        if(this.splitHandValue() > 21 && this.playerHandValue() > 21){
+            $("#nextRound").prop("disabled", false);
+        }
+    },
+
     splitHitButton() {
         $("#splitHit").on("click", () => {
             this.splitHit();
-            // this.checkIfPlayerBust();
+            this.checkIfSplitBust();
         });
     },
 
