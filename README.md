@@ -41,8 +41,8 @@ Split is available on the initial hand only.
 
 ## 3rd Party Tech
 
-Bootstrap was used to structure the visual layout of the game, in addition to the structure of the cards.
+Bootstrap is used to structure the visual layout of the game, in addition to the structure of the cards.
 
 jQuery is utilized for DOM manipulation.
 
-Google Font Ubunto and Bangers was used.
+Google Font Ubunto and Bangers is used.
