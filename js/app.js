@@ -766,13 +766,13 @@ const game = {
                 this.wallet += (this.currentBet * 2 + this.splitBet * 2);
                 $("#nextRound").prop("disabled", false);
             }
-            else if((this.playerHandValue() > this.dealerHandValue() && this.playerHandValue() <= 21) && (this.splitHandValue() < this.dealerHandValue() && this.splitHandValue() <= 21) && this.dealerHandValue() <= 21) {
+            else if((this.playerHandValue() > this.dealerHandValue() && this.playerHandValue() <= 21) && ((this.splitHandValue() < this.dealerHandValue() && this.splitHandValue() <= 21) && this.dealerHandValue() <= 21) || this.splitHandValue() > 21) {
                 console.log(`You win!`);
                 $("#modalOneWin").modal();
                 this.wallet += (this.currentBet * 2);
                 $("#nextRound").prop("disabled", false);
             }
-            else if((this.playerHandValue() < this.dealerHandValue() && this.playerHandValue() <= 21) && (this.splitHandValue() > this.dealerHandValue() && this.splitHandValue() <= 21) && this.dealerHandValue() <= 21) {
+            else if(((this.playerHandValue() < this.dealerHandValue() && this.playerHandValue() <= 21) || this.playerHandValue() > 21) && (this.splitHandValue() > this.dealerHandValue() && this.splitHandValue() <= 21) && this.dealerHandValue() <= 21) {
                 console.log(`You win!`);
                 $("#modalOneWin").modal();
                 this.wallet += (this.splitBet * 2);
@@ -813,8 +813,15 @@ const game = {
                 $("#modalLost").modal();
                 $("#nextRound").prop("disabled", false);
             }
+
+            else if ((this.playerHandValue() < this.dealerHandValue() && this.dealerHandValue() <= 21) && (this.splitHandValue() < this.dealerHandValue() && this.dealerHandValue() <= 21)){
+                console.log(`Dealer wins!`)
+                $("#modalLost").modal();
+                $("#nextRound").prop("disabled", false);
+            }
+
         }
-        else if (this.splitHand.length > 0 && this.splitHandValue() === 21) {
+        else if (this.splitHand.length === 2 && this.splitHandValue() === 21) {
             if (this.dealerHandValue() > 21) {
                 console.log(`You win!`);
                 $("#modalWin").modal();
@@ -1183,21 +1190,27 @@ const game = {
     },
 
     checkIfSplitBust () {
-         if(this.splitHandValue() > 21) {
+         if(this.splitHandValue() > 21 && this.playerHandValue() <= 21) {
             console.log(`Bust!`);
-            $("#modalBust").modal();
+            // $("#modalBust").modal();
             $("#splitHit").prop("disabled", true);
             $("#splitStand").prop("disabled", true);
             $("#splitDoubleDown").prop("disabled", true);
+            this.checkDealer16();
+            this.checkPlayerWinner();
         };
         if(this.splitHandValue() > 21 && this.playerHandValue() > 21){
+            $("#modalBust").modal();
             $("#nextRound").prop("disabled", false);
+            $("#splitHit").prop("disabled", true);
+            $("#splitStand").prop("disabled", true);
         }
     },
 
     splitHitButton() {
         $("#splitHit").on("click", () => {
             this.splitHit();
+            $("#splitDoubleDown").prop("disabled", true);
             this.checkIfSplitBust();
         });
     },
