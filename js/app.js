@@ -4,6 +4,7 @@ const game = {
     splitHand: [],
     wallet: 1000,
     currentBet: 0,
+    splitBet:0,
     cardsInDeck: [
         twoSpades = {
             value: 2,
@@ -420,11 +421,19 @@ const game = {
     reset () {
         this.beforePlaceBet();
         this.currentBet = 0;
+        this.splitBet = 0;
         this.updateStatus();
+        $("#split-status-row").remove();
+        $("#split-row").remove();
+        $("#split-button-row").remove();
         $(".dealer-card-back").eq(0).attr("class", "card");
         for (let i = this.playerHand.length - 1; i >= 0; i--){
             this.cardsInDeck.push(this.playerHand[i]);
             this.playerHand.splice(i, 1);
+        };
+        for (let i = this.splitHand.length - 1; i >= 0; i--){
+            this.cardsInDeck.push(this.splitHand[i]);
+            this.splitHand.splice(i, 1);
         };
         for (let i = this.dealerHand.length - 1; i >= 0; i--){
             this.cardsInDeck.push(this.dealerHand[i]);
@@ -875,6 +884,7 @@ const game = {
         $("#split").on("click", () => {
             $("#split").prop("disabled", true);
             this.wallet -= this.currentBet;
+            this.splitBet += this.currentBet;
             this.updateStatus();
             this.splitHand.push(this.playerHand[1]);
             this.playerHand.splice(1, 1);
@@ -1039,18 +1049,18 @@ const game = {
 
     splitDoubleDown(){
         $("#splitDoubleDown").on("click", () => {
-            // this.wallet -= this.currentBet;
-            // this.currentBet += this.currentBet;
-            // this.updateStatus();
+            this.wallet -= this.splitBet;
+            this.splitBet += this.splitBet;
+            this.updateSplitStatus();
             $("#splitHit").prop("disabled", true);
             $("#splitStand").prop("disabled", true);
             $("#splitDoubleDown").prop("disabled", true);
             this.splitHit();
-            // this.checkIfPlayerBust();
-            // if(this.playerHandValue() <= 21){
-            //     this.checkDealer16();
-            //     this.checkPlayerWinner();
-            // }
+            this.checkIfSplitBust();
+            if(this.splitHandValue() <= 21){
+                this.checkDealer16();
+                this.checkPlayerWinner();
+            }
         });
     },
 
@@ -1087,6 +1097,11 @@ const game = {
     updateStatus () {
         $("#wallet").text(`Wallet: ${this.wallet} Pokecoins`);
         $("#current-bet").text(`Current Bet: ${this.currentBet} Pokecoins`);
+    },
+
+    updateSplitStatus () {
+        $("#wallet").text(`Wallet: ${this.wallet} Pokecoins`);
+        $("#split-current-bet").text(`Current Bet: ${this.splitBet} Pokecoins`);
     },
 
     nextRound() {
