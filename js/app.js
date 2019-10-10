@@ -974,17 +974,32 @@ const game = {
 
     doubleDown(){
         $("#doubleDown").on("click", () => {
-            this.wallet -= this.currentBet;
-            this.currentBet += this.currentBet;
-            this.updateStatus();
-            $("#hit").prop("disabled", true);
-            $("#stand").prop("disabled", true);
-            $("#doubleDown").prop("disabled", true);
-            this.playerHit();
-            this.checkIfPlayerBust();
-            if(this.playerHandValue() <= 21){
-                this.checkDealer16();
-                this.checkPlayerWinner();
+            if (this.splitHand.length > 0) {
+                this.wallet -= this.currentBet;
+                this.currentBet += this.currentBet;
+                this.updateStatus();
+                $("#hit").prop("disabled", true);
+                $("#stand").prop("disabled", true);
+                $("#doubleDown").prop("disabled", true);
+                $("#splitHit").prop("disabled", false);
+                $("#splitStand").prop("disabled", false);
+                $("#splitDoubleDown").prop("disabled", false);
+                this.playerHit();
+                this.checkIfPlayerBust();
+            }
+            else {
+                this.wallet -= this.currentBet;
+                this.currentBet += this.currentBet;
+                this.updateStatus();
+                $("#hit").prop("disabled", true);
+                $("#stand").prop("disabled", true);
+                $("#doubleDown").prop("disabled", true);
+                this.playerHit();
+                this.checkIfPlayerBust();
+                if(this.playerHandValue() <= 21){
+                    this.checkDealer16();
+                    this.checkPlayerWinner();
+                }
             }
         });
     },
@@ -1048,6 +1063,9 @@ const game = {
             $splitStatusRow.prev().insertAfter($splitStatusRow);
             $splitStatusRow.prev().insertAfter($splitStatusRow);
             $splitStatusRow.prev().insertAfter($splitStatusRow);
+            if(this.playerHand[0].icon === "ace"){
+                $("#player-hand-value").text(`Hand Value: 11`);
+            }
             if(this.splitHand[0].icon === "ace"){
                 $("#split-hand-value").text(`Hand Value: 11`);
             }
