@@ -637,20 +637,47 @@ const game = {
     },
 
     checkPlayerBlackjack () {
-
-        if(this.playerHandValue() === 21){
+        if (this.playerHand.length === 2 && this.splitHand.length > 0 && this.playerHandValue() === 21){
             console.log(`You have blackjack!`);
             $("#modalPlayerBlackjack").modal();
             this.wallet += (this.currentBet * 2.5);
-            $("#nextRound").prop("disabled", false);
             $("#hit").prop("disabled", true);
             $("#stand").prop("disabled", true);
             $("#doubleDown").prop("disabled", true);
             $("#insurance").prop("disabled", true);
             $("#no-insurance").prop("disabled", true);
+            $("#splitHit").prop("disabled", false);
+            $("#splitStand").prop("disabled", false);
+            $("#splitDoubleDown").prop("disabled", false);
         }
-        else {
-            console.log(`You do not have blackjack.`)
+        else if (this.playerHand.length === 2 && this.playerHandValue() === 21) {
+                console.log(`You have blackjack!`);
+                $("#modalPlayerBlackjack").modal();
+                this.wallet += (this.currentBet * 2.5);
+                $("#nextRound").prop("disabled", false);
+                $("#hit").prop("disabled", true);
+                $("#stand").prop("disabled", true);
+                $("#doubleDown").prop("disabled", true);
+                $("#insurance").prop("disabled", true);
+                $("#no-insurance").prop("disabled", true);
+        }
+    },
+
+    checkSplitBlackjack () {
+        if(this.splitHand.length === 2 && this.splitHandValue() === 21 && this.playerHandValue() === 21){
+            console.log(`You have blackjack!`);
+            $("#modalPlayerBlackjack").modal();
+            this.wallet += (this.splitBet * 2.5);
+            $("#nextRound").prop("disabled", false);
+            $("#splitHit").prop("disabled", true);
+            $("#splitStand").prop("disabled", true);
+            $("#splitDoubleDown").prop("disabled", true);
+        }
+        else if (this.splitHand.length === 2 && this.splitHandValue() === 21 && this.playerHandValue() < 21){
+            $("#modalPlayerBlackjack").modal();
+            this.wallet += (this.splitBet * 2.5);
+            this.checkDealer16();
+            this.checkPlayerWinner();
         }
     },
 
@@ -713,28 +740,128 @@ const game = {
     },
 
     checkPlayerWinner () {
-        if (this.dealerHandValue() > 21) {
-            console.log(`You win!`);
-            $("#modalWin").modal();
-            this.wallet += (this.currentBet * 2);
-            $("#nextRound").prop("disabled", false);
+        if(this.splitHand.length > 0 && this.splitHandValue() !== 21){
+            if (this.dealerHandValue() > 21 && (this.playerHandValue() <= 21 && this.splitHandValue() <= 21)) {
+                console.log(`You win!`);
+                $("#modalWin").modal();
+                this.wallet += (this.currentBet * 2 + this.splitBet * 2);
+                $("#nextRound").prop("disabled", false);
+            }
+            else if (this.dealerHandValue() > 21 && (this.playerHandValue() <= 21 && this.splitHandValue() > 21)) {
+                console.log(`You win!`);
+                $("#modalOneWin").modal();
+                this.wallet += (this.currentBet * 2);
+                $("#nextRound").prop("disabled", false);
+            }
+            else if (this.dealerHandValue() > 21 && (this.playerHandValue() > 21 && this.splitHandValue() <= 21)) {
+                console.log(`You win!`);
+                $("#modalOneWin").modal();
+                this.wallet += (this.splitBet * 2);
+                $("#nextRound").prop("disabled", false);
+            }
+            else if((this.playerHandValue() > this.dealerHandValue() && this.playerHandValue() <= 21) && (this.splitHandValue() > this.dealerHandValue() && this.splitHandValue() <= 21) && this.dealerHandValue() <= 21) {
+                console.log(`You win!`);
+                $("#modalWin").modal();
+                this.wallet += (this.currentBet * 2 + this.splitBet * 2);
+                $("#nextRound").prop("disabled", false);
+            }
+            else if((this.playerHandValue() > this.dealerHandValue() && this.playerHandValue() <= 21) && (this.splitHandValue() < this.dealerHandValue() && this.splitHandValue() <= 21) && this.dealerHandValue() <= 21) {
+                console.log(`You win!`);
+                $("#modalOneWin").modal();
+                this.wallet += (this.currentBet * 2);
+                $("#nextRound").prop("disabled", false);
+            }
+            else if((this.playerHandValue() < this.dealerHandValue() && this.playerHandValue() <= 21) && (this.splitHandValue() > this.dealerHandValue() && this.splitHandValue() <= 21) && this.dealerHandValue() <= 21) {
+                console.log(`You win!`);
+                $("#modalOneWin").modal();
+                this.wallet += (this.splitBet * 2);
+                $("#nextRound").prop("disabled", false);
+            }
+
+
+            else if ((this.playerHandValue() === this.dealerHandValue() && this.dealerHandValue() <= 21 && this.playerHandValue() <= 21) && (this.splitHandValue() === this.dealerHandValue() && this.dealerHandValue() <= 21 && this.splitHandValue() <= 21)){
+                console.log(`It's a draw!`)
+                $("#modalDraw").modal();
+                this.wallet += this.currentBet + this.splitBet;
+                $("#nextRound").prop("disabled", false);
+            }
+            else if ((this.playerHandValue() === this.dealerHandValue() && this.dealerHandValue() <= 21 && this.playerHandValue() <= 21) && (this.splitHandValue() > this.dealerHandValue() && this.dealerHandValue() <= 21 && this.splitHandValue() <= 21)){
+                $("#modalOneWin").modal();
+                this.wallet += this.currentBet + this.splitBet * 2;
+                $("#nextRound").prop("disabled", false);
+            }
+            else if ((this.playerHandValue() === this.dealerHandValue() && this.dealerHandValue() <= 21 && this.playerHandValue() <= 21) && (this.splitHandValue() < this.dealerHandValue() && this.dealerHandValue() <= 21 && this.splitHandValue() <= 21)){
+                $("#modalOneLost").modal();
+                $("#modalDraw").modal();
+                this.wallet += this.currentBet;
+                $("#nextRound").prop("disabled", false);
+            }
+            else if ((this.playerHandValue() > this.dealerHandValue() && this.dealerHandValue() <= 21 && this.playerHandValue() <= 21) && (this.splitHandValue() === this.dealerHandValue() && this.dealerHandValue() <= 21 && this.splitHandValue() <= 21)){
+                $("#modalOneWin").modal();
+                this.wallet += this.currentBet * 2 + this.splitBet;
+                $("#nextRound").prop("disabled", false);
+            }
+            else if ((this.playerHandValue() < this.dealerHandValue() && this.dealerHandValue() <= 21 && this.playerHandValue() <= 21) && (this.splitHandValue() === this.dealerHandValue() && this.dealerHandValue() <= 21 && this.splitHandValue() <= 21)){
+                $("#modalOneLost").modal();
+                this.wallet += this.splitBet;
+                $("#nextRound").prop("disabled", false);
+            }
+
+            else if ((this.playerHandValue() < this.dealerHandValue() && this.dealerHandValue() <= 21) && (this.splitHandValue() < this.dealerHandValue() && this.dealerHandValue() <= 21)){
+                console.log(`Dealer wins!`)
+                $("#modalLost").modal();
+                $("#nextRound").prop("disabled", false);
+            }
         }
-        else if(this.playerHandValue() > this.dealerHandValue() && this.playerHandValue() <= 21) {
-            console.log(`You win!`);
-            $("#modalWin").modal();
-            this.wallet += (this.currentBet * 2);
-            $("#nextRound").prop("disabled", false);
+        else if (this.splitHand.length > 0 && this.splitHandValue() === 21) {
+            if (this.dealerHandValue() > 21) {
+                console.log(`You win!`);
+                $("#modalWin").modal();
+                this.wallet += (this.currentBet * 2);
+                $("#nextRound").prop("disabled", false);
+            }
+            else if(this.playerHandValue() > this.dealerHandValue() && this.playerHandValue() <= 21) {
+                console.log(`You win!`);
+                $("#modalWin").modal();
+                this.wallet += (this.currentBet * 2);
+                $("#nextRound").prop("disabled", false);
+            }
+            else if (this.playerHandValue() === this.dealerHandValue() && this.dealerHandValue() <= 21 && this.playerHandValue() <= 21){
+                console.log(`It's a draw!`)
+                $("#modalDraw").modal();
+                this.wallet += this.currentBet;
+                $("#nextRound").prop("disabled", false);
+            }
+            else if (this.playerHandValue() < this.dealerHandValue() && this.dealerHandValue() <= 21){
+                console.log(`Dealer wins!`)
+                $("#modalLost").modal();
+                $("#nextRound").prop("disabled", false);
+            }
         }
-        else if (this.playerHandValue() === this.dealerHandValue() && this.dealerHandValue() <= 21 && this.playerHandValue() <= 21){
-            console.log(`It's a draw!`)
-            $("#modalDraw").modal();
-            this.wallet += this.currentBet;
-            $("#nextRound").prop("disabled", false);
-        }
-        else if (this.playerHandValue() < this.dealerHandValue() && this.dealerHandValue() <= 21){
-            console.log(`Dealer wins!`)
-            $("#modalLost").modal();
-            $("#nextRound").prop("disabled", false);
+        else {
+            if (this.dealerHandValue() > 21) {
+                console.log(`You win!`);
+                $("#modalWin").modal();
+                this.wallet += (this.currentBet * 2);
+                $("#nextRound").prop("disabled", false);
+            }
+            else if(this.playerHandValue() > this.dealerHandValue() && this.playerHandValue() <= 21) {
+                console.log(`You win!`);
+                $("#modalWin").modal();
+                this.wallet += (this.currentBet * 2);
+                $("#nextRound").prop("disabled", false);
+            }
+            else if (this.playerHandValue() === this.dealerHandValue() && this.dealerHandValue() <= 21 && this.playerHandValue() <= 21){
+                console.log(`It's a draw!`)
+                $("#modalDraw").modal();
+                this.wallet += this.currentBet;
+                $("#nextRound").prop("disabled", false);
+            }
+            else if (this.playerHandValue() < this.dealerHandValue() && this.dealerHandValue() <= 21){
+                console.log(`Dealer wins!`)
+                $("#modalLost").modal();
+                $("#nextRound").prop("disabled", false);
+            }
         }
     },
 
@@ -817,17 +944,31 @@ const game = {
             $("#doubleDown").prop("disabled", true);
             $("#insurance").prop("disabled", true);
             this.checkIfPlayerBust();
+            if(this.playerHand[0].icon === "ace"){
+                this.checkPlayerBlackjack();
+            }
         });
     },
 
     stand(){
         $("#stand").on("click", () => {
-            $("#hit").prop("disabled", true);
-            $("#stand").prop("disabled", true);
-            $("#doubleDown").prop("disabled", true);
-            $("#insurance").prop("disabled", true);
-            this.checkDealer16();
-            this.checkPlayerWinner();
+            if(this.splitHand.length > 0){
+                $("#hit").prop("disabled", true);
+                $("#stand").prop("disabled", true);
+                $("#doubleDown").prop("disabled", true);
+                $("#insurance").prop("disabled", true);
+                $("#splitHit").prop("disabled", false);
+                $("#splitStand").prop("disabled", false);
+                $("#splitDoubleDown").prop("disabled", false);
+            }
+            else {
+                $("#hit").prop("disabled", true);
+                $("#stand").prop("disabled", true);
+                $("#doubleDown").prop("disabled", true);
+                $("#insurance").prop("disabled", true);
+                this.checkDealer16();
+                this.checkPlayerWinner();
+            }
         });
     },
 
@@ -942,6 +1083,9 @@ const game = {
         $("#split-row .card").eq(0).clone().attr("id", `split-card${this.splitHand.length}`).appendTo("#split-row");
         this.splitCardReveal();
         $("#split-hand-value").text(`Hand Value: ${this.splitHandValue()}`);
+        if(this.splitHand[0].icon === "ace"){
+            this.checkSplitBlackjack();
+        }
     },
 
     splitCardReveal() {
@@ -1042,8 +1186,8 @@ const game = {
             $("#splitHit").prop("disabled", true);
             $("#splitStand").prop("disabled", true);
             $("#splitDoubleDown").prop("disabled", true);
-            // this.checkDealer16();
-            // this.checkPlayerWinner();
+            this.checkDealer16();
+            this.checkPlayerWinner();
         });
     },
 
