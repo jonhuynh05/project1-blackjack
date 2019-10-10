@@ -798,12 +798,6 @@ const game = {
                 $("#nextRound").prop("disabled", false);
             }
 
-            else if ((this.playerHandValue() < this.dealerHandValue() && this.dealerHandValue() <= 21) && (this.splitHandValue() < this.dealerHandValue() && this.dealerHandValue() <= 21)){
-                console.log(`Dealer wins!`)
-                $("#modalLost").modal();
-                $("#nextRound").prop("disabled", false);
-            }
-
         }
         else if (this.splitHand.length === 2 && this.splitHandValue() === 21) {
             if (this.dealerHandValue() > 21) {
@@ -825,8 +819,7 @@ const game = {
                 $("#nextRound").prop("disabled", false);
             }
             else if (this.playerHandValue() < this.dealerHandValue() && this.dealerHandValue() <= 21){
-                console.log(`Dealer wins!`)
-                $("#modalLost").modal();
+                $("#modalOneWin").modal();
                 $("#nextRound").prop("disabled", false);
             }
         }
