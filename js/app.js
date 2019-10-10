@@ -456,6 +456,7 @@ const game = {
 
     playerCardReveal() {
                 // $(".player-text").eq(this.playerHand.length-1).addClass(`${this.playerHand[this.playerHand.length-1].suit} ${this.playerHand[this.playerHand.length-1].icon}`)
+
         $(".player-text").eq(this.playerHand.length-1).text(`${this.playerHand[this.playerHand.length-1].sign}${this.playerHand[this.playerHand.length-1].unicode}`);
         if(this.playerHand[this.playerHand.length-1].suit==="diamonds" || this.playerHand[this.playerHand.length-1].suit==="hearts"){
             $(".player-text").eq(this.playerHand.length-1).css("color", "red");
@@ -501,7 +502,7 @@ const game = {
         }
         else if(this.playerHand[this.playerHand.length-1].icon==="ace"){
             $(".player-card-img").eq(this.playerHand.length-1).attr("src", pikachu)
-        };
+        }
     },
 
     dealDealerCard() {
@@ -645,14 +646,34 @@ const game = {
     },
 
     playerHit () {
-        this.dealPlayerCard();
-        $(".card").eq(game.dealerHand.length).clone().attr("id", `player-card${this.playerHand.length}`).appendTo("#player-row");
-        this.playerCardReveal();
-        $("#player-hand-value").text(`Hand Value: ${this.playerHandValue()}`);
+        if(this.splitHand.length > 0) {
+            this.dealPlayerCard();
+            $("#player-row .card").eq(0).clone().attr("id", `player-card${this.playerHand.length}`).appendTo("#player-row");
+            this.playerCardReveal();
+            $("#player-hand-value").text(`Hand Value: ${this.playerHandValue()}`);
+        }
+        else{
+            this.dealPlayerCard();
+            $(".card").eq(game.dealerHand.length).clone().attr("id", `player-card${this.playerHand.length}`).appendTo("#player-row");
+            this.playerCardReveal();
+            $("#player-hand-value").text(`Hand Value: ${this.playerHandValue()}`);
+        }
     },
 
     checkIfPlayerBust () {
-        if(this.playerHandValue() > 21) {
+        if (this.splitHand.length > 0){
+            if(this.playerHandValue () > 21){
+                $("#modalBust").modal();
+                $("#hit").prop("disabled", true);
+                $("#stand").prop("disabled", true);
+                $("#doubleDown").prop("disabled", true);
+                $("#insurance").prop("disabled", true);
+                $("#splitHit").prop("disabled", false);
+                $("#splitStand").prop("disabled", false);
+                $("#splitDoubleDown").prop("disabled", false);
+            }
+        }
+        else if(this.playerHandValue() > 21) {
             console.log(`Bust!`);
             $("#modalBust").modal();
             $("#hit").prop("disabled", true);
@@ -871,7 +892,7 @@ const game = {
             $("#split-status-row #player-hand-value").attr({class:"split-status", id:"split-hand-value"});
             $("#split-status-row #current-bet").attr({class:"split-status", id:"split-current-bet"});
             $("#split-row .card").attr("id", "split-card");
-            $("#split-row .card-text").attr("class", "card-text split-text")
+            $(".player-text").eq(1).attr("class", "card-text split-text")
 
             $splitStatusRow.prev().insertAfter($splitStatusRow);
             $splitStatusRow.prev().insertAfter($splitStatusRow);
@@ -891,9 +912,9 @@ const game = {
             $("#split-button-row").append($splitStand);
             const $splitDoubleDown = $("#splitStand").clone().attr("id", "splitDoubleDown").text("Split Double Down");
             $("#split-button-row").append($splitDoubleDown);
-            $("#splitHit").prop("disabled", false);
-            $("#splitStand").prop("disabled", false);
-            $("#splitDoubleDown").prop("disabled", false);
+            $("#splitHit").prop("disabled", true);
+            $("#splitStand").prop("disabled", true);
+            $("#splitDoubleDown").prop("disabled", true);
             this.splitHitButton();
             this.splitStand();
             this.splitDoubleDown();
