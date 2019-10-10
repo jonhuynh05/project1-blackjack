@@ -2,6 +2,8 @@
 
 Pokemon Blackjack is blackjack stylized within the Pokemon universe. It's the cross-section between passions that I grew up with and a game I learned as an adult.
 
+[Pokemon Blackjack](https://jonhuynh05.github.io/project1-blackjack/)
+
 ## Rules
 
 The player assumes the role of Ash Ketchum, local Pokemon hero.
