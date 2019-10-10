@@ -1,5 +1,3 @@
-# project1-blackjack
-
 ## Pokemon Blackjack
 
 Pokemon Blackjack is blackjack stylized within the Pokemon universe. It's the cross-section between passions that I grew up with and a game I learned as an adult.

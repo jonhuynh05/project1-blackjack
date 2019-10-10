@@ -413,9 +413,6 @@ const game = {
         $(".card .card-img-top").css({"width":"118px", "height":"118px"});
         this.dealDealerCard();
         $("#player-hand-value").text(`Hand Value: ${this.playerHandValue()}`)
-        console.log(this.playerHand);
-        console.log(this.dealerHand);
-        console.log(this.cardsInDeck);
     },
 
     reset () {
@@ -642,6 +639,7 @@ const game = {
             console.log(`You have blackjack!`);
             $("#modalPlayerBlackjack").modal();
             this.wallet += (this.currentBet * 2.5);
+            this.currentBet = 0;
             $("#hit").prop("disabled", true);
             $("#stand").prop("disabled", true);
             $("#doubleDown").prop("disabled", true);
@@ -649,7 +647,9 @@ const game = {
             $("#no-insurance").prop("disabled", true);
             $("#splitHit").prop("disabled", false);
             $("#splitStand").prop("disabled", false);
-            $("#splitDoubleDown").prop("disabled", false);
+            if(this.wallet >= this.splitBet){
+                $("#splitDoubleDown").prop("disabled", false);
+            }
         }
         else if (this.playerHand.length === 2 && this.playerHandValue() === 21) {
                 console.log(`You have blackjack!`);
@@ -661,24 +661,6 @@ const game = {
                 $("#doubleDown").prop("disabled", true);
                 $("#insurance").prop("disabled", true);
                 $("#no-insurance").prop("disabled", true);
-        }
-    },
-
-    checkSplitBlackjack () {
-        if(this.splitHand.length === 2 && this.splitHandValue() === 21 && this.playerHandValue() === 21){
-            console.log(`You have blackjack!`);
-            $("#modalPlayerBlackjack").modal();
-            this.wallet += (this.splitBet * 2.5);
-            $("#nextRound").prop("disabled", false);
-            $("#splitHit").prop("disabled", true);
-            $("#splitStand").prop("disabled", true);
-            $("#splitDoubleDown").prop("disabled", true);
-        }
-        else if (this.splitHand.length === 2 && this.splitHandValue() === 21 && this.playerHandValue() < 21){
-            $("#modalPlayerBlackjack").modal();
-            this.wallet += (this.splitBet * 2.5);
-            this.checkDealer16();
-            this.checkPlayerWinner();
         }
     },
 
@@ -707,7 +689,9 @@ const game = {
                 $("#insurance").prop("disabled", true);
                 $("#splitHit").prop("disabled", false);
                 $("#splitStand").prop("disabled", false);
-                $("#splitDoubleDown").prop("disabled", false);
+                if(this.wallet >= this.splitBet){
+                    $("#splitDoubleDown").prop("disabled", false);
+                }
             }
         }
         else if(this.playerHandValue() > 21) {
@@ -766,7 +750,7 @@ const game = {
                 this.wallet += (this.currentBet * 2 + this.splitBet * 2);
                 $("#nextRound").prop("disabled", false);
             }
-            else if((this.playerHandValue() > this.dealerHandValue() && this.playerHandValue() <= 21) && ((this.splitHandValue() < this.dealerHandValue() && this.splitHandValue() <= 21) && this.dealerHandValue() <= 21) || this.splitHandValue() > 21) {
+            else if((this.playerHandValue() > this.dealerHandValue() && this.playerHandValue() <= 21) && ((this.splitHandValue() < this.dealerHandValue() && this.splitHandValue() <= 21) || this.splitHandValue() > 21)) {
                 console.log(`You win!`);
                 $("#modalOneWin").modal();
                 this.wallet += (this.currentBet * 2);
@@ -797,7 +781,7 @@ const game = {
                 this.wallet += this.currentBet;
                 $("#nextRound").prop("disabled", false);
             }
-            else if ((this.playerHandValue() > this.dealerHandValue() && this.dealerHandValue() <= 21 && this.playerHandValue() <= 21) && (this.splitHandValue() === this.dealerHandValue() && this.dealerHandValue() <= 21 && this.splitHandValue() <= 21)){
+            else if ((this.playerHandValue() > this.dealerHandValue() && this.playerHandValue() <= 21) && (this.splitHandValue() === this.dealerHandValue() && this.splitHandValue() <= 21)){
                 $("#modalOneWin").modal();
                 this.wallet += this.currentBet * 2 + this.splitBet;
                 $("#nextRound").prop("disabled", false);
@@ -965,7 +949,9 @@ const game = {
                 $("#insurance").prop("disabled", true);
                 $("#splitHit").prop("disabled", false);
                 $("#splitStand").prop("disabled", false);
-                $("#splitDoubleDown").prop("disabled", false);
+                if(this.wallet >= this.splitBet){
+                    $("#splitDoubleDown").prop("disabled", false);
+                }
             }
             else {
                 $("#hit").prop("disabled", true);
@@ -989,8 +975,11 @@ const game = {
                 $("#doubleDown").prop("disabled", true);
                 $("#splitHit").prop("disabled", false);
                 $("#splitStand").prop("disabled", false);
-                $("#splitDoubleDown").prop("disabled", false);
+                if(this.wallet >= this.splitBet){
+                    $("#splitDoubleDown").prop("disabled", false);
+                }
                 this.playerHit();
+                this.checkPlayerBlackjack();
                 this.checkIfPlayerBust();
             }
             else {
@@ -1017,6 +1006,9 @@ const game = {
             this.currentBet += (insuranceBet);
             this.updateStatus();
             $("#insurance").prop("disabled", true);
+            if(this.dealerHandValue() === 21){
+                this.wallet += insuranceBet * 2;
+            }
             this.checkDealerBlackjack();
             if(this.dealerHandValue() !== 21){
                 this.currentBet -= insuranceBet;
@@ -1026,7 +1018,9 @@ const game = {
                 $("#no-insurance").prop("disabled", true);
                 $("#hit").prop("disabled", false);
                 $("#stand").prop("disabled", false);
-                $("#doubleDown").prop("disabled", false);
+                if (this.wallet >= this.currentBet){
+                    $("#doubleDown").prop("disabled", false);
+                }
                 if(this.playerHand[0].icon === this.playerHand[1].icon){
                     $("#split").prop("disabled", false);
                 }
@@ -1040,7 +1034,9 @@ const game = {
             $("#no-insurance").prop("disabled", true);
             $("#hit").prop("disabled", false);
             $("#stand").prop("disabled", false);
-            $("#doubleDown").prop("disabled", false);
+            if (this.wallet >= this.currentBet){
+                $("#doubleDown").prop("disabled", false);
+            }
             if(this.playerHand[0].icon === this.playerHand[1].icon){
                 $("#split").prop("disabled", false);
             }
@@ -1106,6 +1102,24 @@ const game = {
         let randSplitNum = this.randomSplitCard();
         this.splitHand.push(this.cardsInDeck[randSplitNum]);
         this.cardsInDeck.splice(randSplitNum, 1);
+    },
+
+    checkSplitBlackjack () {
+        if(this.splitHand.length === 2 && this.splitHandValue() === 21 && this.playerHandValue() === 21){
+            console.log(`You have blackjack!`);
+            $("#modalPlayerBlackjack").modal();
+            this.wallet += (this.splitBet * 2.5);
+            $("#nextRound").prop("disabled", false);
+            $("#splitHit").prop("disabled", true);
+            $("#splitStand").prop("disabled", true);
+            $("#splitDoubleDown").prop("disabled", true);
+        }
+        else if (this.splitHand.length === 2 && this.splitHandValue() === 21 && this.playerHandValue() < 21){
+            $("#modalPlayerBlackjack").modal();
+            this.wallet += (this.splitBet * 2.5);
+            this.checkDealer16();
+            this.checkPlayerWinner();
+        }
     },
 
     splitHit () {
@@ -1192,7 +1206,6 @@ const game = {
     checkIfSplitBust () {
          if(this.splitHandValue() > 21 && this.playerHandValue() <= 21) {
             console.log(`Bust!`);
-            // $("#modalBust").modal();
             $("#splitHit").prop("disabled", true);
             $("#splitStand").prop("disabled", true);
             $("#splitDoubleDown").prop("disabled", true);
@@ -1256,7 +1269,7 @@ const game = {
         $("#bet").prop("disabled", true);
         $("#hit").prop("disabled", false);
         $("#stand").prop("disabled", false);
-        if(this.playerHand[0].icon === this.playerHand[1].icon){
+        if(this.playerHand[0].icon === this.playerHand[1].icon && this.wallet >= this.currentBet){
             $("#split").prop("disabled", false);
         }
         if(this.wallet >= this.currentBet){
@@ -1325,10 +1338,6 @@ $("#start").on("click", () => {
     if(game.cardsInDeck.length === 52){
         game.betButtonSetup();
         $("#start").remove();
-
-
-        // const audio = new Audio("sound/pokemon-theme-song-instrumental.mp3");
-        // audio.play();
     }
     game.placeBet();
     game.add100();
