@@ -744,7 +744,7 @@ const game = {
                 this.wallet += (this.splitBet * 2);
                 $("#nextRound").prop("disabled", false);
             }
-            else if((this.playerHandValue() > this.dealerHandValue() && this.playerHandValue() <= 21) && (this.splitHandValue() > this.dealerHandValue() && this.splitHandValue() <= 21) && this.dealerHandValue() <= 21) {
+            else if((this.playerHandValue() > this.dealerHandValue() && this.playerHandValue() <= 21) && (this.splitHandValue() > this.dealerHandValue() && this.splitHandValue() <= 21)) {
                 console.log(`You win!`);
                 $("#modalWin").modal();
                 this.wallet += (this.currentBet * 2 + this.splitBet * 2);
@@ -764,18 +764,18 @@ const game = {
             }
 
 
-            else if ((this.playerHandValue() === this.dealerHandValue() && this.dealerHandValue() <= 21 && this.playerHandValue() <= 21) && (this.splitHandValue() === this.dealerHandValue() && this.dealerHandValue() <= 21 && this.splitHandValue() <= 21)){
+            else if ((this.playerHandValue() === this.dealerHandValue() && this.playerHandValue() <= 21) && (this.splitHandValue() === this.dealerHandValue() && this.splitHandValue() <= 21)){
                 console.log(`It's a draw!`)
                 $("#modalDraw").modal();
                 this.wallet += this.currentBet + this.splitBet;
                 $("#nextRound").prop("disabled", false);
             }
-            else if ((this.playerHandValue() === this.dealerHandValue() && this.dealerHandValue() <= 21 && this.playerHandValue() <= 21) && (this.splitHandValue() > this.dealerHandValue() && this.dealerHandValue() <= 21 && this.splitHandValue() <= 21)){
+            else if ((this.playerHandValue() === this.dealerHandValue() && this.dealerHandValue() <= 21) && (this.splitHandValue() > this.dealerHandValue() && this.splitHandValue() <= 21)){
                 $("#modalOneWin").modal();
                 this.wallet += this.currentBet + this.splitBet * 2;
                 $("#nextRound").prop("disabled", false);
             }
-            else if ((this.playerHandValue() === this.dealerHandValue() && this.dealerHandValue() <= 21 && this.playerHandValue() <= 21) && (this.splitHandValue() < this.dealerHandValue() && this.dealerHandValue() <= 21 && this.splitHandValue() <= 21)){
+            else if ((this.playerHandValue() === this.dealerHandValue() && this.playerHandValue() <= 21) && (this.splitHandValue() < this.dealerHandValue() && this.dealerHandValue() <= 21)){
                 $("#modalOneLost").modal();
                 $("#modalDraw").modal();
                 this.wallet += this.currentBet;
@@ -786,7 +786,7 @@ const game = {
                 this.wallet += this.currentBet * 2 + this.splitBet;
                 $("#nextRound").prop("disabled", false);
             }
-            else if ((this.playerHandValue() < this.dealerHandValue() && this.dealerHandValue() <= 21 && this.playerHandValue() <= 21) && (this.splitHandValue() === this.dealerHandValue() && this.dealerHandValue() <= 21 && this.splitHandValue() <= 21)){
+            else if ((this.playerHandValue() < this.dealerHandValue() && this.dealerHandValue() <= 21) && (this.splitHandValue() === this.dealerHandValue() && this.splitHandValue() <= 21)){
                 $("#modalOneLost").modal();
                 this.wallet += this.splitBet;
                 $("#nextRound").prop("disabled", false);
@@ -843,7 +843,7 @@ const game = {
                 this.wallet += (this.currentBet * 2);
                 $("#nextRound").prop("disabled", false);
             }
-            else if (this.playerHandValue() === this.dealerHandValue() && this.dealerHandValue() <= 21 && this.playerHandValue() <= 21){
+            else if (this.playerHandValue() === this.dealerHandValue() && this.playerHandValue() <= 21){
                 console.log(`It's a draw!`)
                 $("#modalDraw").modal();
                 this.wallet += this.currentBet;
