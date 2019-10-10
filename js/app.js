@@ -630,6 +630,7 @@ const game = {
             $("#doubleDown").prop("disabled", true);
             $("#insurance").prop("disabled", true);
             $("#no-insurance").prop("disabled", true);
+            $("#split").prop("disabled", true);
         }
         else {
             console.log(`Dealer does not have blackjack.`)
@@ -898,6 +899,7 @@ const game = {
         $("#insurance").prop("disabled", true);
         $("#reset").prop("disabled", true);
         $("#no-insurance").prop("disabled", true);
+        $("#split").prop("disabled", true);
 
     },
 
@@ -943,10 +945,7 @@ const game = {
             this.playerHit();
             $("#doubleDown").prop("disabled", true);
             $("#insurance").prop("disabled", true);
-            this.checkIfPlayerBust();
-            if(this.playerHand[0].icon === "ace"){
-                this.checkPlayerBlackjack();
-            }
+            this.checkIfPlayerBust();                this.checkPlayerBlackjack();
         });
     },
 
@@ -1021,6 +1020,9 @@ const game = {
                 $("#hit").prop("disabled", false);
                 $("#stand").prop("disabled", false);
                 $("#doubleDown").prop("disabled", false);
+                if(this.playerHand[0].icon === this.playerHand[1].icon){
+                    $("#split").prop("disabled", false);
+                }
             }
         });
     },
@@ -1032,6 +1034,9 @@ const game = {
             $("#hit").prop("disabled", false);
             $("#stand").prop("disabled", false);
             $("#doubleDown").prop("disabled", false);
+            if(this.playerHand[0].icon === this.playerHand[1].icon){
+                $("#split").prop("disabled", false);
+            }
             this.checkDealerBlackjack();
         });
     },
@@ -1101,9 +1106,7 @@ const game = {
         $("#split-row .card").eq(0).clone().attr("id", `split-card${this.splitHand.length}`).appendTo("#split-row");
         this.splitCardReveal();
         $("#split-hand-value").text(`Hand Value: ${this.splitHandValue()}`);
-        if(this.splitHand[0].icon === "ace"){
-            this.checkSplitBlackjack();
-        }
+        this.checkSplitBlackjack();
     },
 
     splitCardReveal() {
@@ -1240,6 +1243,9 @@ const game = {
         $("#bet").prop("disabled", true);
         $("#hit").prop("disabled", false);
         $("#stand").prop("disabled", false);
+        if(this.playerHand[0].icon === this.playerHand[1].icon){
+            $("#split").prop("disabled", false);
+        }
         if(this.wallet >= this.currentBet){
             $("#doubleDown").prop("disabled", false);
         }
@@ -1249,6 +1255,7 @@ const game = {
             $("#hit").prop("disabled", true);
             $("#stand").prop("disabled", true);
             $("#doubleDown").prop("disabled", true);
+            $("#split").prop("disabled", true);
         }
         else if(this.dealerHand[0].icon === "ace" && this.wallet < this.currentBet / 2){
             this.checkDealerBlackjack();
