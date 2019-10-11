@@ -43,7 +43,9 @@ Split is available on the initial hand only.
 6. Player will be rewarded or lose their bet if they beat the dealer.
 
 
-## 3rd Party Tech
+## Technology
+
+HTML, CSS, and JavaScript is used.
 
 Bootstrap is used to structure the visual layout of the game, in addition to the structure of the cards.
 
