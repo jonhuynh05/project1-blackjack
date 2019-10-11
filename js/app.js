@@ -389,6 +389,8 @@ const game = {
         pokecard = "images/pokemon-card-back.png"
     ],
 
+// GENERATE RANDOM CARD NUMBERS FOR HANDS
+
     randomPlayerCard () {
         return Math.floor(Math.random() * this.cardsInDeck.length)
     },
@@ -400,6 +402,8 @@ const game = {
     randomDealerCard () {
         return Math.floor(Math.random() * this.cardsInDeck.length)
     },
+
+// DEAL INITIAL CARDS TO HANDS
 
     deal () {
         for (let i = 0; i < 2; i++) {
@@ -414,6 +418,8 @@ const game = {
         this.dealDealerCard();
         $("#player-hand-value").text(`Hand Value: ${this.playerHandValue()}`)
     },
+
+// RESET THE GAME
 
     reset () {
         this.beforePlaceBet();
@@ -454,11 +460,15 @@ const game = {
 
     },
 
+// DEAL CARD TO PLAYER
+
     dealPlayerCard() {
         let randPlayerNum = this.randomPlayerCard();
         this.playerHand.push(this.cardsInDeck[randPlayerNum]);
         this.cardsInDeck.splice(randPlayerNum, 1);
     },
+
+// VISUALLY SHOW PLAYER CARD
 
     playerCardReveal() {
                 // $(".player-text").eq(this.playerHand.length-1).addClass(`${this.playerHand[this.playerHand.length-1].suit} ${this.playerHand[this.playerHand.length-1].icon}`)
@@ -511,11 +521,15 @@ const game = {
         }
     },
 
+//DEAL CARD TO DEALER
+
     dealDealerCard() {
         let randDealerNum = this.randomDealerCard();
         this.dealerHand.push(this.cardsInDeck[randDealerNum]);
         this.cardsInDeck.splice(randDealerNum, 1);
     },
+
+//VISUALLY SHOW DEALER CARD
 
     dealerCardReveal() {
         $(".dealer-text").eq(this.dealerHand.length-1).text(`${this.dealerHand[this.dealerHand.length-1].sign}${this.dealerHand[this.dealerHand.length-1].unicode}`);
@@ -566,6 +580,8 @@ const game = {
         };
     },
 
+//CALCULATE PLAYER AND DEALER HAND VALUES
+
     playerHandValue () {
         let value = 0;
         let acePlayerArray = [];
@@ -613,6 +629,8 @@ const game = {
         }
         return value;
     },
+
+//CHECK FOR BLACKJACK
 
     checkDealerBlackjack () {
         if(this.dealerHandValue() === 21){
@@ -664,6 +682,8 @@ const game = {
         }
     },
 
+//PLAYER HIT
+
     playerHit () {
         if(this.splitHand.length > 0) {
             this.dealPlayerCard();
@@ -678,6 +698,8 @@ const game = {
             $("#player-hand-value").text(`Hand Value: ${this.playerHandValue()}`);
         }
     },
+
+//CHECK IF PLAYER HAS BUSTED
 
     checkIfPlayerBust () {
         if (this.splitHand.length > 0){
@@ -705,6 +727,8 @@ const game = {
         }
     },
 
+//DEALER DRAWS UNTIL GREATER THAN 16 HAND VALUE
+
     checkDealer16 () {
         $(".dealer-card-back").eq(0).attr("class", "card");
         game.dealerCardReveal();
@@ -717,12 +741,16 @@ const game = {
         };
     },
 
+//DEALER HIT
+
     dealerHit(){
         this.dealDealerCard();
         $(".card").eq(0).clone().attr("id", `dealer-card${this.dealerHand.length}`).appendTo("#dealer-row");
         this.dealerCardReveal();
         $("#dealer-hand-value").text(`Hand Value: ${this.dealerHandValue()}`)
     },
+
+//PLAYER WIN CONDITIONS
 
     checkPlayerWinner () {
         if(this.splitHand.length > 0 && this.splitHandValue() !== 21){
@@ -798,6 +826,19 @@ const game = {
                 $("#nextRound").prop("disabled", false);
             }
 
+            else if ((this.playerHandValue() < this.dealerHandValue() && this.dealerHandValue() <= 21) && (this.splitHandValue() > 21)){
+                console.log(`Dealer wins!`)
+                $("#modalLost").modal();
+                $("#nextRound").prop("disabled", false);
+            }
+
+            else if ((this.playerHandValue() === this.dealerHandValue() && this.playerHandValue() <= 21) && (this.splitHandValue() > 21)){
+                $("#modalOneLost").modal();
+                $("#modalDraw").modal();
+                this.wallet += this.currentBet;
+                $("#nextRound").prop("disabled", false);
+            }
+
         }
         else if (this.splitHand.length === 2 && this.splitHandValue() === 21) {
             if (this.dealerHandValue() > 21) {
@@ -850,6 +891,8 @@ const game = {
         }
     },
 
+//SET UP ALL BUTTONS
+
     betButtonSetup () {
         const $betButton = $(".btn-primary").clone().attr("id", "bet").text("Place Bet");
         $("#bet-button-row").append($betButton);
@@ -887,6 +930,8 @@ const game = {
 
     },
 
+//ADD 100 COINS
+
     add100() {
         $("#add100").on("click", () => {
             if(this.wallet >= 100) {
@@ -897,6 +942,8 @@ const game = {
             }
         });
     },
+
+//ALL IN
 
     allIn() {
         $("#allIn").on("click", () => {
@@ -911,6 +958,8 @@ const game = {
         });
     },
     
+//PLACE BET AFTER COINS ADDED TO TABLE
+
     placeBet() {
         $("#bet").on("click", () => {
             if (this.currentBet > 0) {
@@ -923,6 +972,8 @@ const game = {
             }
         });
     },
+
+//EVENT LISTENERS
 
     hit() {
         $("#hit").on("click", () => {
@@ -1037,6 +1088,8 @@ const game = {
         });
     },
 
+// SPLIT HAND FUNCTIONS AND LISTENERS
+    
     split(){
         $("#split").on("click", () => {
             $("#split").prop("disabled", true);
@@ -1120,7 +1173,6 @@ const game = {
         $("#split-row .card").eq(0).clone().attr("id", `split-card${this.splitHand.length}`).appendTo("#split-row");
         this.splitCardReveal();
         $("#split-hand-value").text(`Hand Value: ${this.splitHandValue()}`);
-        this.checkSplitBlackjack();
     },
 
     splitCardReveal() {
@@ -1204,8 +1256,8 @@ const game = {
             $("#splitDoubleDown").prop("disabled", true);
             this.checkDealer16();
             this.checkPlayerWinner();
-        };
-        if(this.splitHandValue() > 21 && this.playerHandValue() > 21){
+        }
+        else if(this.splitHandValue() > 21 && this.playerHandValue() > 21){
             $("#modalBust").modal();
             $("#nextRound").prop("disabled", false);
             $("#splitHit").prop("disabled", true);
@@ -1217,6 +1269,7 @@ const game = {
         $("#splitHit").on("click", () => {
             this.splitHit();
             $("#splitDoubleDown").prop("disabled", true);
+            this.checkSplitBlackjack();
             this.checkIfSplitBust();
         });
     },
@@ -1247,6 +1300,8 @@ const game = {
             }
         });
     },
+
+// SETUP PRE/POST BET
 
     beforePlaceBet () {
         $("#add100").prop("disabled", false);
@@ -1282,6 +1337,8 @@ const game = {
 
     },
 
+//UPDATE VISUAL STATUS
+
     updateStatus () {
         $("#wallet").text(`Wallet: ${this.wallet} Pokecoins`);
         $("#current-bet").text(`Current Bet: ${this.currentBet} Pokecoins`);
@@ -1291,6 +1348,8 @@ const game = {
         $("#wallet").text(`Wallet: ${this.wallet} Pokecoins`);
         $("#split-current-bet").text(`Current Bet: ${this.splitBet} Pokecoins`);
     },
+
+// POST GAME
 
     nextRound() {
         $("#nextRound").on("click", () => {
