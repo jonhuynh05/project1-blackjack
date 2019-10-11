@@ -832,10 +832,21 @@ const game = {
                 $("#nextRound").prop("disabled", false);
             }
 
+            else if ((this.splitHandValue() < this.dealerHandValue() && this.dealerHandValue() <= 21) && (this.playerHandValue() > 21)){
+                console.log(`Dealer wins!`)
+                $("#modalLost").modal();
+                $("#nextRound").prop("disabled", false);
+            }
+
             else if ((this.playerHandValue() === this.dealerHandValue() && this.playerHandValue() <= 21) && (this.splitHandValue() > 21)){
                 $("#modalOneLost").modal();
-                $("#modalDraw").modal();
                 this.wallet += this.currentBet;
+                $("#nextRound").prop("disabled", false);
+            }
+
+            else if (this.playerHandValue() > 21 && (this.splitHandValue() > this.dealerHandValue() && this.splitHandValue() <= 21)){
+                $("#modalOneLost").modal();
+                this.wallet += this.splitBet;
                 $("#nextRound").prop("disabled", false);
             }
 
