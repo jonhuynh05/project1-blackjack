@@ -1,8 +1,10 @@
 ## Pokemon Blackjack
 
+<img width="989" alt="Screen Shot 2019-10-10 at 11 16 43 PM" src="https://user-images.githubusercontent.com/53237744/66680050-7b1d3400-ec24-11e9-94b7-836306c181a6.png">
+
 Pokemon Blackjack is blackjack stylized within the Pokemon universe. It's the cross-section between passions that I grew up with and a game I learned as an adult.
 
-[Pokemon Blackjack](https://jonhuynh05.github.io/project1-blackjack/)
+Check out my game here: [Pokemon Blackjack](https://jonhuynh05.github.io/project1-blackjack/)
 
 ## Rules
 
